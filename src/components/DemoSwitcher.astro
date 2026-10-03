@@ -1,0 +1,100 @@
+---
+// Demo-only switches for the client presentation: design (<html data-theme>) and font pair (<html data-font>).
+// Initial values are applied in Base.astro <head> to avoid a flash; ?design=1|2&font=<id> makes links shareable.
+import { defaultDesign, defaultFont, designs, fonts } from '../data/demo';
+---
+
+<div class="switcher" data-defaults={JSON.stringify({ theme: defaultDesign, font: defaultFont })}>
+  <div class="group" role="group" aria-label="Демо: варіант дизайну">
+    <span>Дизайн</span>
+    {
+      designs.map((d, i) => (
+        <button type="button" data-key="theme" data-value={d.id} data-param={i + 1}>
+          {i + 1}
+        </button>
+      ))
+    }
+  </div>
+  <div class="group" role="group" aria-label="Демо: шрифт">
+    <span>Шрифт</span>
+    {
+      fonts.map((f) => (
+        <button type="button" data-key="font" data-value={f.id} data-param={f.id} style={`font-family:'${f.display}'`}>
+          {f.label}
+        </button>
+      ))
+    }
+  </div>
+</div>
+
+<script is:inline>
+  (() => {
+    const root = document.documentElement;
+    const bar = document.currentScript.previousElementSibling;
+    const defaults = JSON.parse(bar.dataset.defaults);
+    const buttons = bar.querySelectorAll('button');
+    const query = { theme: 'design', font: 'font' };
+    const sync = () =>
+      buttons.forEach((b) =>
+        b.setAttribute('aria-pressed', String(b.dataset.value === (root.dataset[b.dataset.key] || defaults[b.dataset.key]))),
+      );
+    buttons.forEach((b) =>
+      b.addEventListener('click', () => {
+        const { key, value, param } = b.dataset;
+        root.dataset[key] = value;
+        try {
+          localStorage.setItem(query[key], value);
+        } catch {}
+        const url = new URL(location.href);
+        url.searchParams.set(query[key], param);
+        history.replaceState(null, '', url);
+        sync();
+      }),
+    );
+    sync();
+  })();
+</script>
+
+<style>
+  .switcher {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 20px;
+    padding: 6px var(--gutter);
+    background: #000;
+    font-family: system-ui, sans-serif;
+    font-size: 0.7rem;
+  }
+
+  .group {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+  }
+
+  span {
+    color: #8a8388;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-right: 2px;
+  }
+
+  button {
+    padding: 4px 12px;
+    border: 1px solid #555;
+    border-radius: 999px;
+    background: transparent;
+    color: #ddd;
+    font-size: 0.75rem;
+    cursor: pointer;
+  }
+
+  button[aria-pressed='true'] {
+    background: #f4a3c6;
+    border-color: #f4a3c6;
+    color: #2a1a22;
+  }
+</style>

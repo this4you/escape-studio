@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { studio } from '../data/studio';
 import { directions, trainers } from '../data/content';
+import { fonts, fontsCss, fontsHref } from '../data/demo';
 
 const base = import.meta.env.BASE_URL;
 const canonical = new URL(base, Astro.site).href;
@@ -52,16 +53,21 @@ const jsonLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script is:inline>
-      // Apply demo design before first paint (see ThemeSwitcher.astro).
-      (() => {
-        const fromUrl = { 1: 'neon', 2: 'graphite' }[new URLSearchParams(location.search).get('design')];
-        let theme = fromUrl;
+    <style set:html={fontsCss}></style>
+    <script is:inline define:vars={{ fontIds: fonts.map((f) => f.id) }}>
+      // Apply demo design and font before first paint (see DemoSwitcher.astro).
+      const params = new URLSearchParams(location.search);
+      const stored = (key) => {
         try {
-          theme ??= localStorage.getItem('design');
-        } catch {}
-        if (theme === 'neon' || theme === 'graphite') document.documentElement.dataset.theme = theme;
-      })();
+          return localStorage.getItem(key);
+        } catch {
+          return null;
+        }
+      };
+      const theme = { 1: 'neon', 2: 'graphite' }[params.get('design')] ?? stored('design');
+      if (theme === 'neon' || theme === 'graphite') document.documentElement.dataset.theme = theme;
+      const font = params.get('font') ?? stored('font');
+      if (fontIds.includes(font)) document.documentElement.dataset.font = font;
     </script>
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -91,10 +97,7 @@ const jsonLd = {
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@300;400;500&display=swap&subset=cyrillic"
-    />
+    <link rel="stylesheet" href={fontsHref} />
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>

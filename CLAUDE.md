@@ -28,13 +28,13 @@ Astro 7, static output, no client-side JS except the tiny inline demo theme swit
 - `src/pages/robots.txt.ts`, `src/pages/sitemap.xml.ts` — generated endpoints (no sitemap integration needed for one page).
 - `public/og.png` — 1200×630 social preview image, rendered once from an SVG; regenerate if branding changes.
 
-## Two demo designs
+## Demo switches (designs & fonts)
 
-The site ships both mockups at once for client demo, switched by a bar at the top (`ThemeSwitcher.astro`). Markup is shared; only `<html data-theme>` differs:
+For the client demo a bar at the top (`DemoSwitcher.astro`, options in `src/data/demo.ts`) switches the design (`<html data-theme>`) and the font pair (`<html data-font>`). Markup is shared:
 - `graphite` (design-2) — default, also what crawlers/no-JS see. Defined on `:root` in `global.css`.
 - `neon` (design-1) — overrides under `:root[data-theme='neon']`.
 
-Theme is chosen before first paint by an inline script in `Base.astro` (`?design=1|2` query → `localStorage` → default). Express per-theme differences via CSS custom properties (`--photo-bg`, `--photo-arch`, `--hero-glow`, …) rather than per-theme selectors in components. Once the client picks one, delete the switcher, the head script and the unused theme block.
+Font pairs (display + body, all with Cyrillic) are defined only in `demo.ts`: it builds the single Google Fonts URL and the `:root[data-font=…]` overrides of `--font-display` / `--font-body`; the default pair is the `:root` value in `global.css`. Both are chosen before first paint by an inline script in `Base.astro` (`?design=1|2&font=<id>` query → `localStorage` → default). Express per-theme differences via CSS custom properties (`--photo-bg`, `--photo-arch`, `--hero-glow`, …) rather than per-theme selectors in components. Once the client decides, delete the switcher, `demo.ts`, the head script and unused theme/font rules.
 
 Tabs (schedule days, adult/kids prices) are CSS-only radio groups (`.tabs` / `.tablist` / `.tabpanels` in `global.css`, uses `:has()`). In `graphite` they behave as tabs; in `neon` the tab list is hidden and all panels are stacked with their `.tabpanel__label` headings visible.
 

@@ -1,4 +1,4 @@
-/* Two demo designs share the same markup; <html data-theme> picks one (see ThemeSwitcher.astro).
+/* Two demo designs share the same markup; <html data-theme> picks one (see DemoSwitcher.astro).
    Default (no attribute, e.g. crawlers) = "graphite" — design-2, brand palette graphite 60% / pink 25% / pastel yellow 15%. */
 :root {
   --bg: #232226;
