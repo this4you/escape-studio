@@ -1,4 +1,5 @@
 ---
+import Photo from './Photo.astro';
 import { trainers } from '../data/content';
 ---
 
@@ -8,7 +9,8 @@ import { trainers } from '../data/content';
     <ul class="grid">
       {
         trainers.map((t) => (
-          <li class="card photo">
+          <li class="card">
+            <Photo name={t.photo} alt={`${t.name} — тренерка студії ESCAPE`} class="card__photo" />
             <div class="card__info">
               <h3>{t.name}</h3>
               <p>{t.specialties.join(' · ')}</p>
@@ -31,6 +33,8 @@ import { trainers } from '../data/content';
   }
 
   .card {
+    position: relative;
+    overflow: hidden;
     aspect-ratio: 3 / 4;
     border-radius: var(--radius);
     border: 1px solid var(--line-strong);
@@ -38,7 +42,12 @@ import { trainers } from '../data/content';
     align-items: flex-end;
   }
 
-  .card::after {
+  .card :global(.card__photo) {
+    position: absolute;
+    inset: 0;
+  }
+
+  .card :global(.card__photo)::after {
     inset: 14% 24% 30%;
   }
 

@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import Photo from './Photo.astro';
 import { studio } from '../data/studio';
 ---
 
@@ -25,9 +26,9 @@ import { studio } from '../data/studio';
         Онлайн запис <Icon name="arrow" size={18} />
       </a>
     </div>
-    <div class="hero__visual photo" aria-hidden="true">
-      <p class="hero__motto">Small<br />people<br />big<br />moves</p>
-    </div>
+    <Photo name="hero" alt="Тренування з йоги у студії ESCAPE" class="hero__visual" priority>
+      <p class="hero__motto" aria-hidden="true">Small<br />people<br />big<br />moves</p>
+    </Photo>
   </div>
 </section>
 
@@ -82,20 +83,46 @@ import { studio } from '../data/studio';
     color: var(--text);
   }
 
-  .hero__visual {
-    aspect-ratio: 4 / 5;
-    border-radius: 999px 999px var(--radius) var(--radius);
+  .hero__inner > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Both designs: the wide photo fills the hero behind the text. */
+  .hero {
+    min-height: min(640px, 80vh);
+    display: flex;
+    align-items: center;
+  }
+
+  .hero :global(.hero__visual) {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero :global(.photo__img) {
+    object-position: 70% 30%;
+  }
+
+  .hero :global(.hero__visual)::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(90deg, var(--bg) 15%, transparent 60%), linear-gradient(0deg, var(--bg), transparent 25%);
   }
 
   .hero__motto {
     position: absolute;
-    left: 24px;
-    bottom: 24px;
+    right: var(--gutter);
+    top: 40px;
     z-index: 1;
     margin: 0;
     font-size: 0.75rem;
     letter-spacing: 0.3em;
     text-transform: uppercase;
+    text-align: right;
     color: var(--text-muted);
   }
 
@@ -104,10 +131,12 @@ import { studio } from '../data/studio';
       grid-template-columns: 1fr;
     }
 
-    .hero__visual {
-      max-height: 360px;
-      aspect-ratio: auto;
-      height: 70vw;
+    .hero :global(.hero__visual)::before {
+      background: linear-gradient(0deg, var(--bg) 10%, color-mix(in srgb, var(--bg) 55%, transparent));
+    }
+
+    .hero__motto {
+      display: none;
     }
   }
 </style>

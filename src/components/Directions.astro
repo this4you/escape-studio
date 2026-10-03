@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import Photo from './Photo.astro';
 import { directions } from '../data/content';
 ---
 
@@ -10,7 +11,7 @@ import { directions } from '../data/content';
       {
         directions.map((d) => (
           <li class="card">
-            <div class="card__photo photo" aria-hidden="true" />
+            <Photo name={d.photo} alt={`${d.name} у студії руху ESCAPE`} class="card__photo" />
             <h3>{d.name}</h3>
             <p>{d.description}</p>
             <Icon name={d.icon} size={28} class="card__icon" />
@@ -50,7 +51,7 @@ import { directions } from '../data/content';
     box-shadow: var(--glow);
   }
 
-  .card__photo {
+  .card :global(.card__photo) {
     width: 100%;
     aspect-ratio: 3 / 4;
     border-radius: calc(var(--radius) - 4px);
@@ -96,10 +97,6 @@ import { directions } from '../data/content';
   @media (max-width: 560px) {
     .grid {
       grid-template-columns: repeat(2, 1fr);
-    }
-
-    .card__photo {
-      aspect-ratio: 4 / 3;
     }
   }
 </style>

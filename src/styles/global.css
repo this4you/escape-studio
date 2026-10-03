@@ -248,3 +248,24 @@ img {
 :root[data-theme='neon'] .tablist {
   display: none;
 }
+
+/* Real photos inside .photo: only the current theme's image is displayed (hidden lazy images are never fetched).
+   A displayed photo replaces the placeholder arch. */
+.photo__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+:root[data-theme='neon'] .photo__img--neon,
+:root:not([data-theme='neon']) .photo__img--graphite {
+  display: block;
+}
+
+:root[data-theme='neon'] .photo:has(> .photo__img--neon)::after,
+:root:not([data-theme='neon']) .photo:has(> .photo__img--graphite)::after {
+  display: none;
+}

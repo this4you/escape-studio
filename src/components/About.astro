@@ -1,11 +1,12 @@
 ---
 import Icon from './Icon.astro';
+import Photo from './Photo.astro';
 import { aboutFeatures } from '../data/content';
 import { studio } from '../data/studio';
 ---
 
 <section class="about" id="about" aria-labelledby="about-title">
-  <div class="about__visual photo" aria-hidden="true"></div>
+  <Photo name="about" alt="Зал студії ESCAPE: дзеркала, неонове світло, килимки" class="about__visual" />
   <div class="about__content">
     <h2 class="section-title" id="about-title">Про студію</h2>
     <p>
@@ -37,11 +38,11 @@ import { studio } from '../data/studio';
     border-block: 1px solid var(--line);
   }
 
-  .about__visual {
+  .about :global(.about__visual) {
     min-height: 360px;
   }
 
-  .about__visual::after {
+  .about :global(.about__visual)::after {
     inset: 20% 30% -10%;
   }
 
@@ -89,7 +90,7 @@ import { studio } from '../data/studio';
       grid-template-columns: 1fr;
     }
 
-    .about__visual {
+    .about :global(.about__visual) {
       min-height: 240px;
     }
   }

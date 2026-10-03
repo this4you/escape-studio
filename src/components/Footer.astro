@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import Photo from './Photo.astro';
 import { studio } from '../data/studio';
 ---
 
@@ -11,7 +12,7 @@ import { studio } from '../data/studio';
         Онлайн запис <Icon name="arrow" size={18} />
       </a>
     </div>
-    <div class="cta__visual photo" aria-hidden="true"></div>
+    <Photo name="cta" alt="Неонова арка в залі студії ESCAPE" class="cta__visual" />
   </div>
 </section>
 
@@ -68,9 +69,17 @@ import { studio } from '../data/studio';
     margin-bottom: 32px;
   }
 
-  .cta__visual {
+  .cta :global(.cta__visual) {
     height: 280px;
     border-radius: 999px 999px 0 0;
+  }
+
+  /* design-1 CTA photo is a narrow portrait shot. */
+  :global(:root[data-theme='neon']) .cta :global(.cta__visual) {
+    width: 100%;
+    max-width: 260px;
+    justify-self: end;
+    border-radius: var(--radius) var(--radius) 0 0;
   }
 
   .footer {
@@ -137,7 +146,7 @@ import { studio } from '../data/studio';
       grid-template-columns: 1fr;
     }
 
-    .cta__visual {
+    .cta :global(.cta__visual) {
       height: 200px;
     }
   }

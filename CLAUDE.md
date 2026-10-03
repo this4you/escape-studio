@@ -41,7 +41,7 @@ Tabs (schedule days, adult/kids prices) are CSS-only radio groups (`.tabs` / `.t
 ## Conventions & gotchas
 
 - **Base path.** Site is deployed as a GitHub Pages project site under `/escape-studio/` (`astro.config.mjs`: `site` + `base`). Always build internal URLs from `import.meta.env.BASE_URL`, never hardcode `/`. When a custom domain is connected: set `site` to it, remove `base`, add `public/CNAME`. Until then `robots.txt` is not at the domain root, so it has no effect for crawlers.
-- **Photos are placeholders.** Elements with class `.photo` render a theme-dependent gradient stand-in. Real photos should go to `src/assets/` and be rendered with `astro:assets` `<Image>` (auto WebP/AVIF + `srcset`), with meaningful Ukrainian `alt` text.
+- **Photos are per theme.** `Photo.astro` takes a slot `name` and renders `src/assets/photos/<theme>/<name>.*` for every theme that has it (via `import.meta.glob` in `src/data/photos.ts`); CSS shows only the current theme's image, otherwise the `.photo` gradient placeholder. Slot names: `hero`, `schedule`, `about`, `cta`, plus `photo` fields in `content.ts` (directions, trainers). To replace a photo, drop a file with the same name — no code changes. Images go through `astro:assets` (WebP). Current photos are AI mockup images cut from `docs/design-*-images.png` (low-res, ~120–550px wide) — replace with real photoshoot shots.
 - Exactly one `<h1>` (in `Hero.astro`); every section has an `id` (used by header nav) and `aria-labelledby` pointing to its heading.
 - Ukrainian grammar in templates: locality has a locative form `studio.address.localityIn` («у Пущі-Водиці») — use it after «у/в».
 - All «Онлайн запис» CTAs link to `studio.bookingUrl` (Hopitude booking calendar).

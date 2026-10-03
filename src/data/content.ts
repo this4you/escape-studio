@@ -2,6 +2,8 @@ import type { IconName } from '../components/Icon.astro';
 
 export interface Direction {
   name: string;
+  // File name in src/assets/photos/<theme>/ (see photos.ts).
+  photo: string;
   icon: IconName;
   description: string;
 }
@@ -21,6 +23,7 @@ export interface ScheduleGroup {
 
 export interface Trainer {
   name: string;
+  photo: string;
   specialties: string[];
 }
 
@@ -31,14 +34,14 @@ export interface PriceItem {
 }
 
 export const directions: Direction[] = [
-  { name: 'Йога-терапія', icon: 'lotus', description: 'Мʼяка практика для спини, суглобів і спокійної голови.' },
-  { name: 'Пілатес', icon: 'mat', description: 'Сильний центр, рівна постава та контроль кожного руху.' },
-  { name: 'Стретчинг', icon: 'heart', description: 'Гнучкість, легкість і розслаблені мʼязи.' },
-  { name: 'High Heels', icon: 'heel', description: 'Танець на підборах: пластика, впевненість, жіночність.' },
-  { name: 'Степ-аеробіка', icon: 'dumbbell', description: 'Енергійне кардіо під музику на степ-платформі.' },
-  { name: 'Body Intensive', icon: 'bolt', description: 'Функціональне тренування на все тіло та витривалість.' },
-  { name: 'Relax Stretching', icon: 'sparkle', description: 'Повільна розтяжка для відновлення після дня.' },
-  { name: 'Дитячі танці', icon: 'people', description: 'Сучасні танці для дітей від 3 років і підлітків.' },
+  { name: 'Йога-терапія', photo: 'yoga-therapy', icon: 'lotus', description: 'Мʼяка практика для спини, суглобів і спокійної голови.' },
+  { name: 'Пілатес', photo: 'pilates', icon: 'mat', description: 'Сильний центр, рівна постава та контроль кожного руху.' },
+  { name: 'Стретчинг', photo: 'stretching', icon: 'heart', description: 'Гнучкість, легкість і розслаблені мʼязи.' },
+  { name: 'High Heels', photo: 'high-heels', icon: 'heel', description: 'Танець на підборах: пластика, впевненість, жіночність.' },
+  { name: 'Степ-аеробіка', photo: 'step-aerobics', icon: 'dumbbell', description: 'Енергійне кардіо під музику на степ-платформі.' },
+  { name: 'Body Intensive', photo: 'body-intensive', icon: 'bolt', description: 'Функціональне тренування на все тіло та витривалість.' },
+  { name: 'Relax Stretching', photo: 'relax-stretching', icon: 'sparkle', description: 'Повільна розтяжка для відновлення після дня.' },
+  { name: 'Дитячі танці', photo: 'kids-dance', icon: 'people', description: 'Сучасні танці для дітей від 3 років і підлітків.' },
 ];
 
 export const adultSchedule: ScheduleGroup[] = [
@@ -76,10 +79,10 @@ export const kidsSchedule: ScheduleGroup[] = [
 ];
 
 export const trainers: Trainer[] = [
-  { name: 'Олександра', specialties: ['High Heels', 'Стретчинг'] },
-  { name: 'Ірина', specialties: ['Йога', 'Пілатес', 'Relax'] },
-  { name: 'Поліна', specialties: ['Фітнес', 'Степ-аеробіка'] },
-  { name: 'Валерія', specialties: ['Дитячі групи', 'Танці', 'Стретчинг'] },
+  { name: 'Олександра', photo: 'trainer-oleksandra', specialties: ['High Heels', 'Стретчинг'] },
+  { name: 'Ірина', photo: 'trainer-iryna', specialties: ['Йога', 'Пілатес', 'Relax'] },
+  { name: 'Поліна', photo: 'trainer-polina', specialties: ['Фітнес', 'Степ-аеробіка'] },
+  { name: 'Валерія', photo: 'trainer-valeriia', specialties: ['Дитячі групи', 'Танці', 'Стретчинг'] },
 ];
 
 export const aboutFeatures: { label: string; icon: IconName }[] = [

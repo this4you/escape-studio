@@ -1,0 +1,36 @@
+---
+import { Image } from 'astro:assets';
+import { findPhoto, themes } from '../data/photos';
+
+// Photo slot that shows the current theme's image (CSS picks it, see .photo__img in global.css)
+// and falls back to the gradient placeholder when a theme has no file for `name`.
+interface Props {
+  name: string;
+  alt: string;
+  class?: string;
+  // Above-the-fold image (hero): load eagerly with high priority.
+  priority?: boolean;
+}
+
+const { name, alt, class: className, priority = false } = Astro.props;
+---
+
+<div class:list={['photo', className]}>
+  {
+    themes.map((theme) => {
+      const src = findPhoto(theme, name);
+      return (
+        src && (
+          <Image
+            src={src}
+            alt={alt}
+            class={`photo__img photo__img--${theme}`}
+            loading={priority ? 'eager' : 'lazy'}
+            fetchpriority={priority ? 'high' : 'auto'}
+          />
+        )
+      );
+    })
+  }
+  <slot />
+</div>
