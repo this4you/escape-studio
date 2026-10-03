@@ -1,0 +1,71 @@
+---
+import { trainers } from '../data/content';
+---
+
+<section class="section" id="trainers" aria-labelledby="trainers-title">
+  <div class="container">
+    <h2 class="section-title" id="trainers-title">Наші тренери</h2>
+    <ul class="grid">
+      {
+        trainers.map((t) => (
+          <li class="card photo">
+            <div class="card__info">
+              <h3>{t.name}</h3>
+              <p>{t.specialties.join(' · ')}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .card {
+    aspect-ratio: 3 / 4;
+    border-radius: var(--radius);
+    border: 1px solid var(--line-strong);
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .card::after {
+    inset: 14% 24% 30%;
+  }
+
+  .card__info {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(transparent, rgb(14 11 13 / 0.9));
+  }
+
+  h3 {
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+  }
+
+  p {
+    margin: 6px 0 0;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

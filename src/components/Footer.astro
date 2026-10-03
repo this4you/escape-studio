@@ -1,0 +1,144 @@
+---
+import Icon from './Icon.astro';
+import { studio } from '../data/studio';
+---
+
+<section class="cta" aria-labelledby="cta-title">
+  <div class="container cta__inner">
+    <div>
+      <h2 id="cta-title">Готова <br />до руху?</h2>
+      <a class="btn" href={studio.bookingUrl} target="_blank" rel="noopener">
+        Онлайн запис <Icon name="arrow" size={18} />
+      </a>
+    </div>
+    <div class="cta__visual photo" aria-hidden="true"></div>
+  </div>
+</section>
+
+<footer class="footer" id="contacts">
+  <div class="container footer__inner">
+    <address>
+      <a href={studio.mapUrl} target="_blank" rel="noopener">
+        <Icon name="pin" size={20} />
+        <span>
+          {studio.address.street}, {studio.address.locality}, {studio.address.city}
+          <small>{studio.address.note}</small>
+        </span>
+      </a>
+      {
+        studio.phones.map((p) => (
+          <a href={`tel:${p.tel}`}>
+            <Icon name="phone" size={20} />
+            <span>
+              {p.display}
+              {'note' in p && <small>{p.note}</small>}
+            </span>
+          </a>
+        ))
+      }
+    </address>
+    <div class="social">
+      <a href={studio.social.instagram} target="_blank" rel="noopener" aria-label="Instagram">
+        <Icon name="instagram" size={22} />
+      </a>
+      <a href={studio.social.telegram} target="_blank" rel="noopener" aria-label="Telegram">
+        <Icon name="telegram" size={22} />
+      </a>
+    </div>
+    <p class="copy">© {new Date().getFullYear()} {studio.name} — {studio.tagline}</p>
+  </div>
+</footer>
+
+<style>
+  .cta {
+    border-top: 1px solid var(--line);
+    overflow: hidden;
+  }
+
+  .cta__inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 32px;
+    padding-top: clamp(48px, 8vw, 80px);
+  }
+
+  h2 {
+    font-size: clamp(1.75rem, 5vw, 3rem);
+    margin-bottom: 32px;
+  }
+
+  .cta__visual {
+    height: 280px;
+    border-radius: 999px 999px 0 0;
+  }
+
+  .footer {
+    border-top: 1px solid var(--line);
+    padding-block: 32px;
+    font-size: 0.9rem;
+  }
+
+  .footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  address {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 32px;
+    font-style: normal;
+  }
+
+  address a,
+  .social a {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  address a:hover,
+  .social a:hover {
+    color: var(--pink);
+  }
+
+  address :global(svg) {
+    color: var(--pink);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  small {
+    display: block;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+  }
+
+  .social {
+    display: flex;
+    gap: 16px;
+  }
+
+  .copy {
+    width: 100%;
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+  }
+
+  @media (max-width: 700px) {
+    .cta__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .cta__visual {
+      height: 200px;
+    }
+  }
+</style>

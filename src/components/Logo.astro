@@ -1,0 +1,20 @@
+---
+// ESCAPE wordmark, redrawn from docs/логотип.jpg as strokes so it stays crisp and recolors via currentColor.
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+const E = 'M76 6H20A14 14 0 0 0 6 20V70A14 14 0 0 0 20 84H76M6 45H70';
+---
+
+<svg class={className} viewBox="0 0 660 90" role="img" aria-label="ESCAPE">
+  <g fill="none" stroke="currentColor" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
+    <path d={E}></path>
+    <path transform="translate(104)" d="M88 6H26A19.5 19.5 0 0 0 26 45H68A19.5 19.5 0 0 1 68 84H6"></path>
+    <path transform="translate(220)" d="M92 6H45A39 39 0 0 0 45 84H92"></path>
+    <path transform="translate(330)" d="M6 84L62 6L118 84"></path>
+    <path transform="translate(472)" d="M6 84V20A14 14 0 0 1 20 6H56A22 22 0 0 1 56 50H6"></path>
+    <path transform="translate(578)" d={E}></path>
+  </g>
+</svg>

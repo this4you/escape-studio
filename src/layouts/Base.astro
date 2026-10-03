@@ -1,0 +1,104 @@
+---
+import '../styles/global.css';
+import { studio } from '../data/studio';
+import { directions, trainers } from '../data/content';
+
+const base = import.meta.env.BASE_URL;
+const canonical = new URL(base, Astro.site).href;
+const ogImage = new URL(`${base}og.png`, Astro.site).href;
+const { title, description, keywords } = studio.seo;
+
+// schema.org: local business + offered classes, for Google local search / rich results.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SportsActivityLocation',
+  '@id': `${canonical}#studio`,
+  name: `${studio.name} — ${studio.tagline}`,
+  alternateName: studio.formerName,
+  description,
+  url: canonical,
+  image: ogImage,
+  logo: new URL(`${base}favicon.svg`, Astro.site).href,
+  telephone: studio.phones.map((p) => p.tel),
+  priceRange: studio.priceRange,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: studio.address.street,
+    addressLocality: `${studio.address.locality}, ${studio.address.city}`,
+    addressRegion: studio.address.region,
+    addressCountry: studio.address.country,
+  },
+  hasMap: studio.mapUrl,
+  sameAs: [studio.social.instagram, studio.social.telegram],
+  potentialAction: {
+    '@type': 'ReserveAction',
+    target: studio.bookingUrl,
+    name: 'Онлайн запис',
+  },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Напрямки',
+    itemListElement: directions.map((d) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: d.name, description: d.description },
+    })),
+  },
+  employee: trainers.map((t) => ({ '@type': 'Person', name: t.name, jobTitle: `Тренерка: ${t.specialties.join(', ')}` })),
+};
+---
+
+<!doctype html>
+<html lang="uk">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      // Apply demo design before first paint (see ThemeSwitcher.astro).
+      (() => {
+        const fromUrl = { 1: 'neon', 2: 'graphite' }[new URLSearchParams(location.search).get('design')];
+        let theme = fromUrl;
+        try {
+          theme ??= localStorage.getItem('design');
+        } catch {}
+        if (theme === 'neon' || theme === 'graphite') document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#232226" />
+    <meta name="geo.region" content="UA-30" />
+    <meta name="geo.placename" content={`${studio.address.locality}, ${studio.address.city}`} />
+
+    <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml" />
+    <link rel="sitemap" href={`${base}sitemap.xml`} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="uk_UA" />
+    <meta property="og:site_name" content={studio.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@300;400;500&display=swap&subset=cyrillic"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

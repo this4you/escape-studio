@@ -1,0 +1,78 @@
+---
+// Demo-only switch between design-1 ("neon") and design-2 ("graphite").
+// The initial theme is applied in Base.astro <head> to avoid a flash; ?design=1|2 makes links shareable.
+const designs = [
+  { theme: 'neon', label: 'Дизайн 1' },
+  { theme: 'graphite', label: 'Дизайн 2' },
+];
+---
+
+<div class="switcher" role="group" aria-label="Демо: варіант дизайну">
+  <span>Демо</span>
+  {
+    designs.map((d, i) => (
+      <button type="button" data-theme-option={d.theme} data-design={i + 1}>
+        {d.label}
+      </button>
+    ))
+  }
+</div>
+
+<script is:inline>
+  (() => {
+    const root = document.documentElement;
+    const buttons = document.querySelectorAll('[data-theme-option]');
+    const sync = () =>
+      buttons.forEach((b) =>
+        b.setAttribute('aria-pressed', String(b.dataset.themeOption === (root.dataset.theme || 'graphite'))),
+      );
+    buttons.forEach((b) =>
+      b.addEventListener('click', () => {
+        root.dataset.theme = b.dataset.themeOption;
+        try {
+          localStorage.setItem('design', b.dataset.themeOption);
+        } catch {}
+        const url = new URL(location.href);
+        url.searchParams.set('design', b.dataset.design);
+        history.replaceState(null, '', url);
+        sync();
+      }),
+    );
+    sync();
+  })();
+</script>
+
+<style>
+  .switcher {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 6px var(--gutter);
+    background: #000;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  span {
+    color: #8a8388;
+    margin-right: 4px;
+  }
+
+  button {
+    padding: 4px 12px;
+    border: 1px solid #555;
+    border-radius: 999px;
+    background: transparent;
+    color: #ddd;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  button[aria-pressed='true'] {
+    background: #f4a3c6;
+    border-color: #f4a3c6;
+    color: #2a1a22;
+  }
+</style>

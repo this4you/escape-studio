@@ -1,0 +1,53 @@
+---
+import ScheduleTable from './ScheduleTable.astro';
+import { adultSchedule, kidsSchedule } from '../data/content';
+---
+
+<section class="section" id="schedule" aria-labelledby="schedule-title">
+  <div class="container">
+    <h2 class="visually-hidden" id="schedule-title">Розклад занять</h2>
+    <div class="columns">
+      <ScheduleTable title="Розклад" subtitle="для дорослих" id="schedule-adults" groups={adultSchedule} />
+      <div>
+        <ScheduleTable title="Розклад" subtitle="для дітей" id="schedule-kids" groups={kidsSchedule} />
+        <div class="hall photo" aria-hidden="true"><span>Escape</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(24px, 4vw, 48px);
+  }
+
+  .hall {
+    margin-top: 12px;
+    aspect-ratio: 16 / 8;
+    border-radius: var(--radius);
+    border: 1px solid var(--line-strong);
+    display: grid;
+    place-items: center;
+  }
+
+  .hall::after {
+    display: none;
+  }
+
+  .hall span {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    color: var(--pink);
+    text-shadow: var(--glow);
+  }
+
+  @media (max-width: 860px) {
+    .columns {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

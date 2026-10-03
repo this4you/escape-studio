@@ -1,0 +1,104 @@
+---
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import { studio } from '../data/studio';
+
+const links = [
+  { href: '#about', label: 'Про студію' },
+  { href: '#directions', label: 'Напрямки' },
+  { href: '#schedule', label: 'Розклад' },
+  { href: '#trainers', label: 'Тренери' },
+  { href: '#prices', label: 'Прайс' },
+  { href: '#contacts', label: 'Контакти' },
+];
+---
+
+<header class="header">
+  <div class="container header__inner">
+    <a href="#top" class="logo" aria-label={`${studio.name} — ${studio.tagline}, на початок сторінки`}>
+      <Logo class="logo__mark" />
+      <span class="logo__tag">{studio.tagline}</span>
+    </a>
+    <nav aria-label="Основна навігація">
+      <ul class="nav">
+        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </nav>
+    <a class="btn btn--ghost" href={studio.bookingUrl} target="_blank" rel="noopener">
+      Онлайн запис <Icon name="arrow" size={18} />
+    </a>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgb(14 11 13 / 0.82);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    min-height: 72px;
+  }
+
+  .logo {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    line-height: 1;
+  }
+
+  .logo :global(.logo__mark) {
+    width: 132px;
+    height: auto;
+  }
+
+  .logo__tag {
+    font-size: 0.65rem;
+    letter-spacing: 0.52em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 7px;
+  }
+
+  .nav {
+    display: flex;
+    gap: 28px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav a {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--text-muted);
+    transition: color 0.2s;
+  }
+
+  .nav a:hover {
+    color: var(--pink);
+  }
+
+  @media (max-width: 900px) {
+    nav {
+      display: none;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .header .btn {
+      padding: 8px 14px;
+      font-size: 0.7rem;
+    }
+  }
+</style>

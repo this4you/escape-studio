@@ -1,0 +1,250 @@
+/* Two demo designs share the same markup; <html data-theme> picks one (see ThemeSwitcher.astro).
+   Default (no attribute, e.g. crawlers) = "graphite" — design-2, brand palette graphite 60% / pink 25% / pastel yellow 15%. */
+:root {
+  --bg: #232226;
+  --bg-raised: #2d2c31;
+  --line: rgb(255 255 255 / 0.1);
+  --line-strong: rgb(255 255 255 / 0.18);
+  --text: #f4f1ea;
+  --text-muted: #b5aeb3;
+  --pink: #f4a3c6;
+  --pink-strong: #f78bbb;
+  --gold: #f2e6a0;
+  --on-accent: #2a1a22;
+  --glow: 0 0 28px rgb(244 163 198 / 0.35);
+  --photo-bg:
+    radial-gradient(70% 60% at 75% 25%, rgb(242 230 160 / 0.55), transparent 70%),
+    radial-gradient(80% 70% at 25% 75%, rgb(244 163 198 / 0.7), transparent 70%), #3a3439;
+  --photo-arch: none;
+  --hero-glow: radial-gradient(40% 60% at 85% 30%, rgb(244 163 198 / 0.3), transparent 70%);
+
+  --font-display: 'Unbounded', system-ui, sans-serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
+
+  --radius: 18px;
+  --container: 1200px;
+  --gutter: clamp(16px, 4vw, 40px);
+
+  color-scheme: dark;
+}
+
+/* design-1: near-black with pink neon arches */
+:root[data-theme='neon'] {
+  --bg: #0e0b0d;
+  --bg-raised: #17121a;
+  --line: rgb(255 255 255 / 0.12);
+  --line-strong: rgb(255 255 255 / 0.22);
+  --text: #f4eef1;
+  --text-muted: #a99ea5;
+  --pink: #f6a1c8;
+  --pink-strong: #ff7eb6;
+  --gold: #eadb8a;
+  --on-accent: #1a0f15;
+  --glow: 0 0 24px rgb(255 126 182 / 0.45);
+  --photo-bg:
+    radial-gradient(120% 80% at 50% 0%, rgb(255 126 182 / 0.28), transparent 60%),
+    linear-gradient(160deg, #2a1d26, #120d11 70%);
+  --photo-arch: block;
+  --hero-glow: none;
+  --radius: 14px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  line-height: 1.15;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 3px;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: clamp(48px, 8vw, 88px);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  margin-bottom: clamp(24px, 4vw, 40px);
+}
+
+.section-title::after {
+  content: '';
+  width: 48px;
+  height: 2px;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 30px;
+  border-radius: 999px;
+  background: var(--pink);
+  color: var(--on-accent);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  box-shadow: var(--glow);
+  transition:
+    transform 0.2s,
+    background 0.2s;
+}
+
+.btn:hover {
+  background: var(--pink-strong);
+  transform: translateY(-1px);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--pink);
+  box-shadow: none;
+  padding: 10px 20px;
+}
+
+.btn--ghost:hover {
+  background: rgb(246 161 200 / 0.12);
+}
+
+/* Stand-in for photos until real shots are added (see CLAUDE.md). */
+.photo {
+  position: relative;
+  overflow: hidden;
+  background: var(--photo-bg);
+}
+
+.photo::after {
+  content: '';
+  display: var(--photo-arch);
+  position: absolute;
+  inset: 18% 22% -10%;
+  border: 2px solid rgb(255 126 182 / 0.55);
+  border-bottom: none;
+  border-radius: 999px 999px 0 0;
+  box-shadow:
+    var(--glow),
+    inset 0 0 24px rgb(255 126 182 / 0.3);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Tabs: radio inputs, no JS. In the "neon" design all panels are shown stacked and the tab list is hidden. */
+.tablist {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.tablist label {
+  padding: 8px 22px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.tablist input:checked + label {
+  background: var(--pink);
+  border-color: var(--pink);
+  color: var(--on-accent);
+}
+
+.tablist input:focus-visible + label {
+  outline: 2px solid var(--pink);
+  outline-offset: 3px;
+}
+
+/* Panel label (e.g. «Пн · Ср») is visible only in the stacked "neon" layout; with tabs it stays for screen readers. */
+:root:not([data-theme='neon']) .tabpanel__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+:root:not([data-theme='neon']) .tabs:has(.tablist) .tabpanels > * {
+  display: none;
+}
+
+:root:not([data-theme='neon']) .tabs:has(.tablist input:nth-of-type(1):checked) .tabpanels > :nth-child(1),
+:root:not([data-theme='neon']) .tabs:has(.tablist input:nth-of-type(2):checked) .tabpanels > :nth-child(2),
+:root:not([data-theme='neon']) .tabs:has(.tablist input:nth-of-type(3):checked) .tabpanels > :nth-child(3) {
+  display: block;
+}
+
+:root[data-theme='neon'] .tablist {
+  display: none;
+}

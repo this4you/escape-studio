@@ -1,0 +1,163 @@
+---
+import type { ScheduleGroup } from '../data/content';
+
+interface Props {
+  title: string;
+  subtitle: string;
+  id: string;
+  groups: ScheduleGroup[];
+}
+
+const { title, subtitle, id, groups } = Astro.props;
+---
+
+<div class="schedule">
+  <h3 class="schedule__title" id={id}>
+    {title} <span>{subtitle}</span>
+  </h3>
+  <div class="tabs">
+    {
+      groups.length > 1 && (
+        <div class="tablist" role="radiogroup" aria-label={`${title} ${subtitle}: дні тижня`}>
+          {groups.map((g, i) => (
+            <>
+              <input class="visually-hidden" type="radio" name={id} id={`${id}-${i}`} checked={i === 0} />
+              <label for={`${id}-${i}`}>{g.days}</label>
+            </>
+          ))}
+        </div>
+      )
+    }
+    <div class="tabpanels">
+      {
+        groups.map((g) => (
+          <div>
+            <table class="table" aria-labelledby={id}>
+              <caption class={`days days--${g.tone} ${groups.length > 1 ? 'tabpanel__label' : ''}`}>{g.days}</caption>
+              <thead class="visually-hidden">
+                <tr>
+                  <th scope="col">Час</th>
+                  <th scope="col">Заняття</th>
+                  <th scope="col">Тренерка</th>
+                </tr>
+              </thead>
+              <tbody>
+                {g.rows.map((r) => (
+                  <tr>
+                    <td class="time">{r.time}</td>
+                    <td class="title">
+                      {r.title}
+                      {r.note && <small>({r.note})</small>}
+                    </td>
+                    <td class="trainer">{r.trainer}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .schedule__title {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    margin-bottom: 24px;
+  }
+
+  .schedule__title span {
+    display: block;
+    font-size: 0.6em;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 6px;
+    margin-bottom: 18px;
+    font-size: 0.85rem;
+  }
+
+  .days {
+    caption-side: top;
+    text-align: left;
+    padding: 6px 18px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #1a0f15;
+    width: fit-content;
+    margin-bottom: 6px;
+  }
+
+  .days--pink {
+    background: var(--pink);
+  }
+
+  .days--gold {
+    background: var(--gold);
+  }
+
+  td {
+    padding: 12px 16px;
+    border-block: 1px solid var(--line-strong);
+    background: var(--bg-raised);
+    vertical-align: middle;
+  }
+
+  td:first-child {
+    border-left: 1px solid var(--line-strong);
+    border-radius: 10px 0 0 10px;
+  }
+
+  td:last-child {
+    border-right: 1px solid var(--line-strong);
+    border-radius: 0 10px 10px 0;
+  }
+
+  .time {
+    width: 90px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .title {
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .title small {
+    display: block;
+    text-transform: none;
+    color: var(--text-muted);
+  }
+
+  .trainer {
+    width: 120px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+  }
+
+  @media (max-width: 480px) {
+    td {
+      padding: 10px;
+    }
+
+    .time {
+      width: 64px;
+    }
+
+    .trainer {
+      width: auto;
+    }
+  }
+</style>
