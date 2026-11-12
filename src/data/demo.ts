@@ -1,9 +1,4 @@
 // Demo-only options for the client presentation (see DemoSwitcher.astro). Remove once choices are final.
-export const designs = [
-  { id: 'neon', label: 'Дизайн 1' },
-  { id: 'graphite', label: 'Дизайн 2' },
-] as const;
-
 export interface FontPair {
   id: string;
   label: string;
@@ -51,7 +46,6 @@ export const fonts: FontPair[] = [
   },
 ];
 
-export const defaultDesign = 'graphite';
 export const defaultFont = fonts[0].id;
 
 // Browsers download font files only for faces actually used, so one stylesheet for all pairs is cheap.

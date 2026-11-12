@@ -8,52 +8,43 @@ import { studio } from '../data/studio';
   <div class="container">
     <h2 class="section-title" id="prices-title">Прайс</h2>
     <p class="promo">Перше заняття — безкоштовно</p>
-    <div class="tabs">
-      <div class="tablist" role="radiogroup" aria-label="Категорія прайсу">
-        {
-          prices.map((g, i) => (
-            <>
-              <input class="visually-hidden" type="radio" name="prices" id={`prices-${i}`} checked={i === 0} />
-              <label for={`prices-${i}`}>{g.label}</label>
-            </>
-          ))
-        }
-      </div>
-      <div class="tabpanels">
-        {
-          prices.map((g) => (
-            <div class="group">
-              <h3 class="tabpanel__label">{g.label}</h3>
-              <div class="columns">
-                {g.columns.map((column) => (
-                  <ul class="list">
-                    {column.map((item) => (
-                      <li>
-                        <a class="item" href={studio.bookingUrl} target="_blank" rel="noopener">
-                          <span class="item__title">
-                            {item.title}
-                            {item.note && <small>{item.note}</small>}
+    {
+      prices.map((g) => (
+        <div class="group">
+          {g.label && <h3>{g.label}</h3>}
+          <div class="columns">
+            {g.columns.map((column) => (
+              <ul class="list">
+                {column.map((item) => (
+                  <li>
+                    <a
+                      class:list={['item', { 'item--featured': item.featured }]}
+                      href={studio.bookingUrl}
+                      target="_blank"
+                      rel="noopener"
+                    >
+                      <span class="item__title">
+                        {item.title}
+                        {item.note && <small>{item.note}</small>}
+                      </span>
+                      <span class="item__prices">
+                        {item.prices.map((p) => (
+                          <span class="price">
+                            {p.label && <small>{p.label}</small>}
+                            <strong>{p.value}</strong>
                           </span>
-                          <span class="item__prices">
-                            {item.prices.map((p) => (
-                              <span class="price">
-                                {p.label && <small>{p.label}</small>}
-                                <strong>{p.value}</strong>
-                              </span>
-                            ))}
-                          </span>
-                          <Icon name="arrow" size={20} class="item__arrow" />
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
+                        ))}
+                      </span>
+                      <Icon name="arrow" size={20} class="item__arrow" />
+                    </a>
+                  </li>
                 ))}
-              </div>
-            </div>
-          ))
-        }
-      </div>
-    </div>
+              </ul>
+            ))}
+          </div>
+        </div>
+      ))
+    }
   </div>
 </section>
 
@@ -111,7 +102,8 @@ import { studio } from '../data/studio';
       box-shadow 0.2s;
   }
 
-  .item:hover {
+  .item:hover,
+  .item--featured {
     border-color: var(--pink);
     box-shadow: var(--glow);
   }

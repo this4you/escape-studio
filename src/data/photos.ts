@@ -2,7 +2,8 @@ import type { ImageMetadata } from 'astro';
 
 // Photos are looked up by name per design theme: src/assets/photos/<theme>/<name>.{png,jpg,jpeg,webp}.
 // Dropping a file with the same name into another theme's folder is enough to use it there.
-export const themes = ['neon', 'graphite'] as const;
+// The client chose "neon"; graphite photos are no longer rendered.
+export const themes = ['neon'] as const;
 export type Theme = (typeof themes)[number];
 
 const files = import.meta.glob<{ default: ImageMetadata }>('../assets/photos/*/*.{png,jpg,jpeg,webp}', {

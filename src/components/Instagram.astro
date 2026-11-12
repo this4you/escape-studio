@@ -1,0 +1,51 @@
+---
+import Icon from './Icon.astro';
+import { studio } from '../data/studio';
+---
+
+<section class="section" id="instagram" aria-labelledby="instagram-title">
+  <div class="container">
+    <div class="insta">
+      <Icon name="instagram" size={40} class="insta__icon" />
+      <div class="insta__text">
+        <h2 id="instagram-title">Хочеш дізнатись більше?</h2>
+        <p>Переходь на наш Instagram — там основний контент: відео з тренувань, новини та анонси студії.</p>
+      </div>
+      <a class="btn" href={studio.social.instagram} target="_blank" rel="noopener">
+        Наш Instagram <Icon name="arrow" size={18} />
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .insta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px 28px;
+    padding: clamp(24px, 4vw, 40px);
+    border: 1px solid var(--pink);
+    border-radius: var(--radius);
+    background: var(--bg-raised);
+    box-shadow: var(--glow);
+  }
+
+  .insta :global(.insta__icon) {
+    flex-shrink: 0;
+    color: var(--pink);
+  }
+
+  .insta__text {
+    flex: 1 1 280px;
+  }
+
+  h2 {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  }
+
+  p {
+    margin: 8px 0 0;
+    color: var(--text-muted);
+  }
+</style>

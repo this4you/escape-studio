@@ -249,6 +249,30 @@ img {
   display: none;
 }
 
+/* Subtle motion: sections fade up as they scroll into view (CSS scroll-driven animation, no JS). */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero__content {
+    animation: reveal 0.8s ease-out both;
+  }
+
+  @supports (animation-timeline: view()) {
+    .section > .container,
+    .about__content,
+    .cta__inner {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 260px;
+    }
+  }
+}
+
 /* Real photos inside .photo: only the current theme's image is displayed (hidden lazy images are never fetched).
    A displayed photo replaces the placeholder arch. */
 .photo__img {

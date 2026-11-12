@@ -29,6 +29,7 @@ const jsonLd = {
     addressRegion: studio.address.region,
     addressCountry: studio.address.country,
   },
+  geo: { '@type': 'GeoCoordinates', latitude: studio.geo.lat, longitude: studio.geo.lng },
   hasMap: studio.mapUrl,
   sameAs: [studio.social.instagram, studio.social.telegram],
   potentialAction: {
@@ -49,13 +50,13 @@ const jsonLd = {
 ---
 
 <!doctype html>
-<html lang="uk">
+<html lang="uk" data-theme="neon">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style set:html={fontsCss}></style>
     <script is:inline define:vars={{ fontIds: fonts.map((f) => f.id) }}>
-      // Apply demo design and font before first paint (see DemoSwitcher.astro).
+      // Apply the demo font before first paint (see DemoSwitcher.astro).
       const params = new URLSearchParams(location.search);
       const stored = (key) => {
         try {
@@ -64,8 +65,6 @@ const jsonLd = {
           return null;
         }
       };
-      const theme = { 1: 'neon', 2: 'graphite' }[params.get('design')] ?? stored('design');
-      if (theme === 'neon' || theme === 'graphite') document.documentElement.dataset.theme = theme;
       const font = params.get('font') ?? stored('font');
       if (fontIds.includes(font)) document.documentElement.dataset.font = font;
     </script>
@@ -74,7 +73,7 @@ const jsonLd = {
     <meta name="keywords" content={keywords} />
     <link rel="canonical" href={canonical} />
     <meta name="robots" content="index, follow, max-image-preview:large" />
-    <meta name="theme-color" content="#232226" />
+    <meta name="theme-color" content="#0e0b0d" />
     <meta name="geo.region" content="UA-30" />
     <meta name="geo.placename" content={`${studio.address.locality}, ${studio.address.city}`} />
 

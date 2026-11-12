@@ -12,11 +12,13 @@ import { studio } from '../data/studio';
     <p>
       {studio.name} — це більше, ніж тренування. Це простір, де ти можеш побути собою, відновити енергію, відчути
       своє тіло та знайти баланс. Ми поєднуємо сучасні методики, комфортну атмосферу та професійну команду, щоб рух
-      став частиною твого життя.
+      став частиною твого життя. А невеликі групи по 6–8 людей дозволяють тренеру приділити увагу кожному, допомогти
+      з технікою та врахувати індивідуальні особливості.
     </p>
     <p class="muted">
-      Ми у {studio.address.localityIn}: {studio.address.street}, {studio.address.note}.
-      {`Раніше студія працювала як ${studio.formerName}.`}
+      {
+        `Ми у ${studio.address.localityIn}: ${studio.address.street}, ${studio.address.note}. Раніше студія працювала як ${studio.formerName}.`
+      }
     </p>
     <ul class="features">
       {

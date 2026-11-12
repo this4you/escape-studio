@@ -8,19 +8,16 @@ import { studio } from '../data/studio';
   <div class="container hero__inner">
     <div class="hero__content">
       <h1 id="hero-title">
-        Твій простір <br />для себе
+        Твій простір <br />для руху
         <span class="visually-hidden">— студія руху {studio.name} у {studio.address.localityIn}, {studio.address.city}</span>
       </h1>
-      <ul class="hero__words" aria-label="Наші цінності">
-        <li>Рух</li>
-        <li>Баланс</li>
-        <li>Сила</li>
-        <li>Енергія</li>
-        <li>Ти</li>
-      </ul>
+      <p class="hero__quote">
+        Ти не можеш керувати всім, що відбувається навколо. Але можеш обрати, як почуватися всередині.
+      </p>
       <p class="hero__lead">
-        Сучасна студія руху для дорослих та дітей у {studio.address.localityIn}: йога, пілатес, стретчинг, танці та
-        фітнес. Тренування, що надихають, відновлюють і дають енергію. <strong>Перше заняття — безкоштовно.</strong>
+        Тому ми створили {studio.name}. Сучасна студія руху для дітей та дорослих у {studio.address.localityIn}, де
+        можна переключити увагу з усього зовнішнього на СЕБЕ. На своє тіло, дихання, рух і власний стан. Тренування,
+        що надихають, відновлюють і дають енергію. <strong>Перше заняття — безкоштовне.</strong>
       </p>
       <a class="btn" href={studio.bookingUrl} target="_blank" rel="noopener">
         Онлайн запис <Icon name="arrow" size={18} />
@@ -53,18 +50,18 @@ import { studio } from '../data/studio';
     text-shadow: var(--glow);
   }
 
-  .hero__words {
-    list-style: none;
-    padding: 0;
+  .hero__quote {
+    max-width: 46ch;
     margin: 28px 0;
     font-size: 0.8rem;
-    letter-spacing: 0.3em;
+    font-weight: 300;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     color: var(--text-muted);
     line-height: 1.8;
   }
 
-  .hero__words::after {
+  .hero__quote::after {
     content: '';
     display: block;
     width: 32px;
@@ -74,7 +71,7 @@ import { studio } from '../data/studio';
   }
 
   .hero__lead {
-    max-width: 44ch;
+    max-width: 52ch;
     margin: 0 0 32px;
     color: var(--text-muted);
   }

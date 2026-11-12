@@ -1,20 +1,10 @@
 ---
-// Demo-only switches for the client presentation: design (<html data-theme>) and font pair (<html data-font>).
-// Initial values are applied in Base.astro <head> to avoid a flash; ?design=1|2&font=<id> makes links shareable.
-import { defaultDesign, defaultFont, designs, fonts } from '../data/demo';
+// Demo-only switch for the client presentation: font pair (<html data-font>). The design is fixed to "neon".
+// The initial value is applied in Base.astro <head> to avoid a flash; ?font=<id> makes links shareable.
+import { defaultFont, fonts } from '../data/demo';
 ---
 
-<div class="switcher" data-defaults={JSON.stringify({ theme: defaultDesign, font: defaultFont })}>
-  <div class="group" role="group" aria-label="Демо: варіант дизайну">
-    <span>Дизайн</span>
-    {
-      designs.map((d, i) => (
-        <button type="button" data-key="theme" data-value={d.id} data-param={i + 1}>
-          {i + 1}
-        </button>
-      ))
-    }
-  </div>
+<div class="switcher" data-defaults={JSON.stringify({ font: defaultFont })}>
   <div class="group" role="group" aria-label="Демо: шрифт">
     <span>Шрифт</span>
     {
@@ -33,7 +23,7 @@ import { defaultDesign, defaultFont, designs, fonts } from '../data/demo';
     const bar = document.currentScript.previousElementSibling;
     const defaults = JSON.parse(bar.dataset.defaults);
     const buttons = bar.querySelectorAll('button');
-    const query = { theme: 'design', font: 'font' };
+    const query = { font: 'font' };
     const sync = () =>
       buttons.forEach((b) =>
         b.setAttribute('aria-pressed', String(b.dataset.value === (root.dataset[b.dataset.key] || defaults[b.dataset.key]))),
