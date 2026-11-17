@@ -11,9 +11,9 @@ import { adultSchedule, kidsSchedule } from '../data/content';
       <h2 class="section-title" id="schedule-title">Розклад занять</h2>
     </div>
     <div class="columns">
-      <ScheduleTable title="Для дорослих" subtitle="йога · пілатес · танці · стретчинг" id="schedule-adults" groups={adultSchedule} />
+      <ScheduleTable title="Для дорослих" id="schedule-adults" groups={adultSchedule} />
       <div>
-        <ScheduleTable title="Для дітей" subtitle="групи 3–6 та 7+ років" id="schedule-kids" groups={kidsSchedule} />
+        <ScheduleTable title="Для дітей" id="schedule-kids" groups={kidsSchedule} />
         <Photo name="schedule" alt="Зал студії ESCAPE з неоновою вивіскою" class="hall"><span aria-hidden="true">Escape</span></Photo>
       </div>
     </div>
