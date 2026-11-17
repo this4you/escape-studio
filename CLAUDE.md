@@ -23,10 +23,10 @@ Astro 7, static output, no client-side JS except one small script in `Header.ast
   - `content.ts` — directions, schedule, trainers (optional `bio`, up to ~300 characters, rendered as an expandable `<details>` on the card), prices, about-features.
 - `src/layouts/Base.astro` — `<head>`: meta, canonical, Open Graph/Twitter, fonts, and `SportsActivityLocation` JSON-LD built from the data files. Changing studio data automatically updates structured data.
 - `src/components/` — one component per page section, composed in `src/pages/index.astro`. Styles are component-scoped; design tokens (colors, fonts, radius) and shared classes (`.container`, `.section`, `.section-title`, `.btn`, `.photo`, `.visually-hidden`) live in `src/styles/global.css`.
-- `Logo.astro` — ESCAPE wordmark redrawn as stroked SVG paths (no vector source exists); also reused in `public/favicon.svg` and the OG image.
+- `Logo.astro` — the client's current logo (`src/assets/logo.png`: ESCAPE wordmark + «студія руху для дітей та дорослих», white on transparent, raster only). `public/logo.png` is the same logo on the dark background for JSON-LD `logo` (Google shows logos on white). `public/favicon.svg` is just the «E».
 - `Icon.astro` — inline SVG icon set; add a path to its `paths` map to add an icon (`IconName` type follows automatically).
 - `src/pages/robots.txt.ts`, `src/pages/sitemap.xml.ts` — generated endpoints (no sitemap integration needed for one page).
-- `public/og.png` — 1200×630 social preview image, rendered once from an SVG; regenerate if branding changes.
+- `public/og.jpg` — 1200×630 social preview (logo, headline, directions, hero photo), rendered once with headless Chrome from an HTML mock-up; JPEG to stay small for messengers. Regenerate if branding or directions change.
 
 ## Design
 
@@ -34,7 +34,7 @@ The client chose the `neon` design (design-1): `<html data-theme="neon">` is har
 
 Fonts: Unbounded (display, sentence case) + Onest (body) + Cormorant Garamond italic (accent: an `<em>` inside an `h1`/`h2`), all with Cyrillic — `--font-display` / `--font-body` / `--font-accent` on `:root` in `global.css`, loaded by one Google Fonts `<link>` in `Base.astro`.
 
-Header nav is a `popover` element: inline bar on desktop, full-screen menu behind the burger on ≤1000px (its `<script>` closes it after a link click). Section headings use `.section-head` (`.eyebrow` + `.section-title`); cards with `.reveal-item` get a scroll-driven entrance.
+Header nav is a `popover` element: inline bar on desktop, full-screen menu behind the burger on ≤1120px (its `<script>` closes it after a link click). Section headings use `.section-head` (`.eyebrow` + `.section-title`); cards with `.reveal-item` get a scroll-driven entrance.
 
 Schedule day tabs are CSS-only radio groups (`.tabs` / `.tablist` / `.tabpanels` in `global.css`, uses `:has()`); in `neon` the tab list is hidden and all panels are stacked with their `.tabpanel__label` headings visible.
 

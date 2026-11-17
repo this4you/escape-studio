@@ -5,7 +5,7 @@ import { directions, trainers } from '../data/content';
 
 const base = import.meta.env.BASE_URL;
 const canonical = new URL(base, Astro.site).href;
-const ogImage = new URL(`${base}og.png`, Astro.site).href;
+const ogImage = new URL(`${base}og.jpg`, Astro.site).href;
 const { title, description, keywords } = studio.seo;
 
 // schema.org: local business + offered classes, for Google local search / rich results.
@@ -18,7 +18,7 @@ const jsonLd = {
   description,
   url: canonical,
   image: ogImage,
-  logo: new URL(`${base}favicon.svg`, Astro.site).href,
+  logo: new URL(`${base}logo.png`, Astro.site).href,
   telephone: studio.phones.map((p) => p.tel),
   priceRange: studio.priceRange,
   address: {
