@@ -16,7 +16,7 @@ Main business goal is local SEO and promotion, so treat semantic HTML, meta tags
 
 ## Architecture
 
-Astro 7, static output, no client-side JS except the tiny inline demo font switcher. No UI framework, no CSS framework.
+Astro 7, static output, no client-side JS. No UI framework, no CSS framework.
 
 - **Content is data-driven.** Edit `src/data/` rather than markup:
   - `studio.ts` — business info (name, contacts, address, booking URL, socials, SEO title/description). Single source of truth used by the page, `<head>` meta and JSON-LD.
@@ -28,11 +28,11 @@ Astro 7, static output, no client-side JS except the tiny inline demo font switc
 - `src/pages/robots.txt.ts`, `src/pages/sitemap.xml.ts` — generated endpoints (no sitemap integration needed for one page).
 - `public/og.png` — 1200×630 social preview image, rendered once from an SVG; regenerate if branding changes.
 
-## Design & demo font switch
+## Design
 
 The client chose the `neon` design (design-1): `<html data-theme="neon">` is hardcoded in `Base.astro` and `themes` in `src/data/photos.ts` lists only `neon`. The `graphite` (design-2) rules on `:root` in `global.css`, the `:root:not([data-theme='neon'])` selectors and `src/assets/photos/graphite/` are leftovers to delete in a cleanup.
 
-The font pair is still undecided: a bar at the top (`DemoSwitcher.astro`, options in `src/data/demo.ts`) switches `<html data-font>`. Font pairs (display + body, all with Cyrillic) are defined only in `demo.ts`: it builds the single Google Fonts URL and the `:root[data-font=…]` overrides of `--font-display` / `--font-body`; the default pair is the `:root` value in `global.css`. The font is chosen before first paint by an inline script in `Base.astro` (`?font=<id>` query → `localStorage` → default). Once the client decides, delete the switcher, `demo.ts`, the head script and unused font rules.
+Fonts: Unbounded (display) + Manrope (body), both with Cyrillic — `--font-display` / `--font-body` on `:root` in `global.css`, loaded by one Google Fonts `<link>` in `Base.astro`.
 
 Schedule day tabs are CSS-only radio groups (`.tabs` / `.tablist` / `.tabpanels` in `global.css`, uses `:has()`); in `neon` the tab list is hidden and all panels are stacked with their `.tabpanel__label` headings visible.
 

@@ -2,7 +2,6 @@
 import '../styles/global.css';
 import { studio } from '../data/studio';
 import { directions, trainers } from '../data/content';
-import { fonts, fontsCss, fontsHref } from '../data/demo';
 
 const base = import.meta.env.BASE_URL;
 const canonical = new URL(base, Astro.site).href;
@@ -54,20 +53,6 @@ const jsonLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style set:html={fontsCss}></style>
-    <script is:inline define:vars={{ fontIds: fonts.map((f) => f.id) }}>
-      // Apply the demo font before first paint (see DemoSwitcher.astro).
-      const params = new URLSearchParams(location.search);
-      const stored = (key) => {
-        try {
-          return localStorage.getItem(key);
-        } catch {
-          return null;
-        }
-      };
-      const font = params.get('font') ?? stored('font');
-      if (fontIds.includes(font)) document.documentElement.dataset.font = font;
-    </script>
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="keywords" content={keywords} />
@@ -96,7 +81,10 @@ const jsonLd = {
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href={fontsHref} />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;400;500&family=Manrope:wght@400;500;600;700&display=swap"
+    />
 
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
