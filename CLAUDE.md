@@ -10,7 +10,7 @@ Main business goal is local SEO and promotion, so treat semantic HTML, meta tags
 
 ## Commands
 
-- `npm run dev` — dev server at `http://localhost:4321/escape-studio/`
+- `npm run dev` — dev server at `http://localhost:4321/`
 - `npm run build` — `astro check` (type-check) + static build to `dist/`. This is the only verification step; there are no tests.
 - `npm run preview` — serve the built `dist/`
 
@@ -40,7 +40,7 @@ Motion is CSS-only (`reveal` keyframes in `global.css`): hero fade-in plus scrol
 
 ## Conventions & gotchas
 
-- **Base path.** Site is deployed as a GitHub Pages project site under `/escape-studio/` (`astro.config.mjs`: `site` + `base`). Always build internal URLs from `import.meta.env.BASE_URL`, never hardcode `/`. When a custom domain is connected: set `site` to it, remove `base`, add `public/CNAME`. Until then `robots.txt` is not at the domain root, so it has no effect for crawlers.
+- **Domain.** Site is served from the custom domain `https://escape.in.ua` (`astro.config.mjs` `site`, `public/CNAME`; the domain itself is set in repo Settings → Pages). No `base` path, but still build internal URLs from `import.meta.env.BASE_URL` rather than hardcoding `/`.
 - **Photos are per theme.** `Photo.astro` takes a slot `name` and renders `src/assets/photos/<theme>/<name>.*` for every theme that has it (via `import.meta.glob` in `src/data/photos.ts`); CSS shows only the current theme's image, otherwise the `.photo` gradient placeholder. Slot names: `hero`, `schedule`, `about`, `cta`, plus `photo` fields in `content.ts` (directions, trainers). To replace a photo, drop a file with the same name — no code changes. Images go through `astro:assets` (WebP). Trainer photos, `kids-dance` and `teen-dance` are real shots (resized to 900px wide from the client's originals, which are not committed); the rest are AI mockup images cut from `docs/design-*-images.png` (low-res) — replace with real photoshoot shots.
 - Exactly one `<h1>` (in `Hero.astro`); every section has an `id` (used by header nav) and `aria-labelledby` pointing to its heading.
 - Ukrainian grammar in templates: locality has a locative form `studio.address.localityIn` («у Пущі-Водиці») — use it after «у/в».
@@ -49,6 +49,6 @@ Motion is CSS-only (`reveal` keyframes in `global.css`): hero fade-in plus scrol
 
 ## Deploy
 
-Push to `main` → `.github/workflows/deploy.yml` (`withastro/action` + `actions/deploy-pages`) → https://this4you.github.io/escape-studio/
+Push to `main` → `.github/workflows/deploy.yml` (`withastro/action` + `actions/deploy-pages`) → https://escape.in.ua/
 
 Repo: `git@github-personal:this4you/escape-studio.git` (personal account; local git identity `this4you`).

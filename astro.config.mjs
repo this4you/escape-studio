@@ -1,11 +1,9 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// GitHub Pages project site: https://this4you.github.io/escape-studio/
-// When a custom domain is connected, set `site` to it and drop `base`.
+// GitHub Pages with custom domain https://escape.in.ua (set in repo Settings → Pages).
 export default defineConfig({
-  site: 'https://this4you.github.io',
-  base: '/escape-studio',
+  site: 'https://escape.in.ua',
   trailingSlash: 'always',
   build: {
     inlineStylesheets: 'always',
