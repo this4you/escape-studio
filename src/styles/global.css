@@ -196,6 +196,63 @@ img {
   transform: translateX(4px);
 }
 
+/* Soft light sweep across the pink buttons every few seconds. */
+.btn:not(.btn--ghost) {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.btn:not(.btn--ghost)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(105deg, transparent 35%, rgb(255 255 255 / 0.5) 50%, transparent 65%);
+  transform: translateX(-120%);
+}
+
+/* «Live» dot: a small dot with an expanding ring (hero badge, price promo). Color = currentColor. */
+.pulse-dot {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+@keyframes pulse {
+  from {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--pulse-color, currentColor) 60%, transparent);
+  }
+  70%,
+  to {
+    box-shadow: 0 0 0 10px color-mix(in srgb, var(--pulse-color, currentColor) 0%, transparent);
+  }
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-120%);
+  }
+  22%,
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pulse-dot,
+  .pulse {
+    animation: pulse 2.2s infinite;
+  }
+
+  .btn:not(.btn--ghost)::before {
+    animation: shine 5s ease-in-out 1.5s infinite;
+  }
+}
+
 .btn--ghost {
   background: var(--surface);
   color: var(--text);

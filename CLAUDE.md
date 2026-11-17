@@ -38,7 +38,7 @@ Header nav is a `popover` element: inline bar on desktop, full-screen menu behin
 
 Schedule day tabs are CSS-only radio groups (`.tabs` / `.tablist` / `.tabpanels` in `global.css`, uses `:has()`); in `neon` the tab list is hidden and all panels are stacked with their `.tabpanel__label` headings visible.
 
-Motion is CSS-only (`reveal` keyframes in `global.css`): staggered hero entrance plus scroll-driven reveal of `.section-head` and `.reveal-item` behind `@supports (animation-timeline: view())` and `prefers-reduced-motion`.
+Motion is CSS-only (`reveal`, `pulse`, `shine` keyframes in `global.css`): `.pulse-dot` (live dot in the hero badge and price promo), `.pulse` ring (featured price arrow, studio spot on the map), a light sweep over pink `.btn`s, staggered hero entrance plus scroll-driven reveal of `.section-head` and `.reveal-item` behind `@supports (animation-timeline: view())` and `prefers-reduced-motion`.
 
 ## Conventions & gotchas
 

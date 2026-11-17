@@ -6,7 +6,7 @@ export const studio = {
   bookingUrl: 'https://app.hopitude.com/uk/calendar?cl=3696',
   phones: [
     { display: '+38 (099) 006 75 56', tel: '+380990067556', note: 'Олександра' },
-    { display: '+38 (093) 834 05 17', tel: '+380938340517' },
+    { display: '+38 (093) 834 05 17', tel: '+380938340517', note: 'Escape Studio' },
   ],
   address: {
     street: 'вул. Юнкерова, 76',

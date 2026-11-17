@@ -13,7 +13,7 @@ const fmt = (o: PriceOption) => `${o.amount} ${o.unit}`;
         <p class="eyebrow">Вартість</p>
         <h2 class="section-title" id="prices-title">Прайс</h2>
       </div>
-      <p class="promo">Перше заняття — безкоштовно</p>
+      <p class="promo"><span class="pulse-dot" aria-hidden="true"></span> Перше заняття — безкоштовно</p>
     </div>
     <ul class="grid">
       {
@@ -34,7 +34,7 @@ const fmt = (o: PriceOption) => `${o.amount} ${o.unit}`;
                   <span class="amount"><strong>{card.options[0].amount}</strong> {card.options[0].unit}</span>
                   {card.options[0].note && <small>{card.options[0].note}</small>}
                 </span>
-                <span class="arrow" aria-hidden="true">
+                <span class:list={['arrow', { pulse: card.featured }]} aria-hidden="true">
                   <Icon name="arrow" size={18} />
                 </span>
               </a>
@@ -90,8 +90,11 @@ const fmt = (o: PriceOption) => `${o.amount} ${o.unit}`;
   }
 
   .promo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
     margin: 0;
-    padding: 8px 18px;
+    padding: 8px 18px 8px 14px;
     border-radius: 999px;
     border: 1px solid rgb(234 219 138 / 0.35);
     background: rgb(234 219 138 / 0.08);
@@ -222,6 +225,10 @@ const fmt = (o: PriceOption) => `${o.amount} ${o.unit}`;
       color 0.3s,
       border-color 0.3s,
       transform 0.3s var(--ease);
+  }
+
+  .tile--featured .arrow {
+    --pulse-color: var(--pink-strong);
   }
 
   .tile:hover .arrow,

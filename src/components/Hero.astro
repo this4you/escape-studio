@@ -15,7 +15,7 @@ const facts = [
   <Photo name="hero" alt="Тренування з йоги у студії ESCAPE" class="hero__visual" priority />
   <div class="container hero__inner">
     <div class="hero__content">
-      <p class="badge"><span class="badge__dot" aria-hidden="true"></span> Перше заняття — безкоштовно</p>
+      <p class="badge"><span class="pulse-dot" aria-hidden="true"></span> Перше заняття — безкоштовно</p>
       <h1 id="hero-title">
         Твій простір <br />для <em>руху</em>
         <span class="visually-hidden">— студія руху {studio.name} у {studio.address.localityIn}, {studio.address.city}</span>
@@ -113,29 +113,6 @@ const facts = [
     color: var(--gold);
     font-size: 0.85rem;
     font-weight: 600;
-  }
-
-  .badge__dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--gold);
-    box-shadow: 0 0 0 0 rgb(234 219 138 / 0.6);
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .badge__dot {
-      animation: pulse 2.2s infinite;
-    }
-  }
-
-  @keyframes pulse {
-    70% {
-      box-shadow: 0 0 0 10px rgb(234 219 138 / 0);
-    }
-    100% {
-      box-shadow: 0 0 0 0 rgb(234 219 138 / 0);
-    }
   }
 
   h1 {
