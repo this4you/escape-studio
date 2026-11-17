@@ -217,18 +217,27 @@ const facts = [
     color: var(--pink);
   }
 
+  /* Phones: the banner's four faces sit at 60–95% of its width, so instead of a full-height background
+     the photo becomes a square block on top showing the right half of the 2:1 banner; the text starts over its lower edge. */
   @media (max-width: 800px) {
     .hero {
-      align-items: flex-end;
-      min-height: min(760px, calc(100svh - 76px));
+      display: block;
+      min-height: 0;
+      padding-top: 78vw;
+      padding-bottom: 48px;
+    }
+
+    .hero :global(.hero__visual) {
+      inset: 0 0 auto;
+      aspect-ratio: 1;
     }
 
     .hero :global(.photo__img) {
-      object-position: 70% 20%;
+      object-position: 100% 50%;
     }
 
     .hero :global(.hero__visual)::before {
-      background: linear-gradient(0deg, var(--bg) 8%, rgb(12 10 12 / 0.7) 55%, rgb(12 10 12 / 0.2));
+      background: linear-gradient(0deg, var(--bg) 2%, rgb(12 10 12 / 0.55) 22%, transparent 45%);
     }
 
     .facts {

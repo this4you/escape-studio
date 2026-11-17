@@ -68,6 +68,11 @@ const iconImage = (name: string) => iconImages[`../assets/icons/${name}.png`]?.d
     grid-row: span 2;
   }
 
+  /* With 8 directions: big first tile (4 cells) + 6 + a wide last tile (2) = full 4×3 grid, and 2-column rows on tablets. */
+  .card:last-child {
+    grid-column: span 2;
+  }
+
   .card :global(.card__photo) {
     position: absolute;
     inset: 0;
@@ -165,7 +170,8 @@ const iconImage = (name: string) => iconImages[`../assets/icons/${name}.png`]?.d
       scroll-snap-align: start;
     }
 
-    .card--wide {
+    .card--wide,
+    .card:last-child {
       grid-column: auto;
     }
 

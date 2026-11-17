@@ -23,7 +23,7 @@ export const studio = {
     'https://www.google.com/maps/search/?api=1&query=50.5490806%2C30.3413584&query_place_id=ChIJrVP3bgAtK0cRSWbXBMUAkLk',
   mapEmbedUrl: 'https://maps.google.com/maps?q=50.5490806,30.3413584&z=16&hl=uk&output=embed',
   social: {
-    instagram: 'https://www.instagram.com/alex__studio__/',
+    instagram: 'https://www.instagram.com/escape_studio__/',
     telegram: 'https://t.me/alexstudio2023',
   },
   priceRange: '300–1999 грн',

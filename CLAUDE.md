@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-One-page landing site for **ESCAPE — студія руху**, a women's/kids' fitness & dance studio in Пуща-Водиця (Kyiv). It is a rebrand of `Alex Studio` (Instagram `@alex__studio__`, Telegram `@alexstudio2023`). All site copy is Ukrainian. References in `docs/`: two mockups (`design-1.jpg`, `design-2.jpg`), logo raster (`логотип.jpg`), customer notes (brand palette: graphite 60% / pink 25% / pastel yellow 15%; no real photos yet — a photoshoot is planned).
+One-page landing site for **ESCAPE — студія руху**, a women's/kids' fitness & dance studio in Пуща-Водиця (Kyiv). It is a rebrand of `Alex Studio` (Instagram is now `@escape_studio__`; Telegram still `@alexstudio2023`). All site copy is Ukrainian. References in `docs/`: two mockups (`design-1.jpg`, `design-2.jpg`), logo raster (`логотип.jpg`), customer notes (brand palette: graphite 60% / pink 25% / pastel yellow 15%; no real photos yet — a photoshoot is planned).
 
 Main business goal is local SEO and promotion, so treat semantic HTML, meta tags and structured data as first-class requirements, not polish.
 
@@ -43,12 +43,12 @@ Motion is CSS-only (`reveal` keyframes in `global.css`): staggered hero entrance
 ## Conventions & gotchas
 
 - **Domain.** Site is served from the custom domain `https://escape.in.ua` (`astro.config.mjs` `site`, `public/CNAME`; the domain itself is set in repo Settings → Pages). No `base` path, but still build internal URLs from `import.meta.env.BASE_URL` rather than hardcoding `/`.
-- **Photos are per theme.** `Photo.astro` takes a slot `name` and renders `src/assets/photos/<theme>/<name>.*` for every theme that has it (via `import.meta.glob` in `src/data/photos.ts`); CSS shows only the current theme's image, otherwise the `.photo` gradient placeholder. Slot names: `hero`, `schedule`, `about`, `cta`, plus `photo` fields in `content.ts` (directions, trainers). To replace a photo, drop a file with the same name — no code changes. Images go through `astro:assets` (WebP). `hero` (client banner), trainer photos and all direction photos except `stretching` are real shots (resized to 900px wide from the client's originals, which are not committed; EXIF rotation baked in; trainer photos are cropped to 3:4 from `docs/task1/` originals so faces sit at the same height and scale); `stretching`, `schedule`, `about`, `cta` are still AI mockup images cut from `docs/design-*-images.png` (low-res) — replace with real photoshoot shots.
-- **Direction icons.** `Directions.astro` shows the client's drawn icon `src/assets/icons/<photo>.png` (128px) when it exists, else the SVG `icon` from `content.ts` (currently only «Стретчинг»).
+- **Photos are per theme.** `Photo.astro` takes a slot `name` and renders `src/assets/photos/<theme>/<name>.*` for every theme that has it (via `import.meta.glob` in `src/data/photos.ts`); CSS shows only the current theme's image, otherwise the `.photo` gradient placeholder. Slot names: `hero`, `schedule`, `about`, `cta`, plus `photo` fields in `content.ts` (directions, trainers). To replace a photo, drop a file with the same name — no code changes. Images go through `astro:assets` (WebP). `hero` (client banner), trainer photos and all direction photos are real shots (resized to 900px wide from the client's originals, which are not committed; EXIF rotation baked in; trainer photos are cropped to 3:4 from `docs/task1/` originals so faces sit at the same height and scale); `schedule`, `about`, `cta` are still AI mockup images cut from `docs/design-*-images.png` (low-res) — replace with real photoshoot shots.
+- **Direction icons.** `Directions.astro` shows the client's drawn icon `src/assets/icons/<photo>.png` (128px) when it exists, else the SVG `icon` from `content.ts` (currently every direction has a drawn icon).
 - Exactly one `<h1>` (in `Hero.astro`); every section has an `id` (used by header nav) and `aria-labelledby` pointing to its heading.
 - Ukrainian grammar in templates: locality has a locative form `studio.address.localityIn` («у Пущі-Водиці») — use it after «у/в».
 - All «Онлайн запис» CTAs link to `studio.bookingUrl` (Hopitude booking calendar).
-- Map (`Location.astro`): keyless Google Maps `<iframe>` (`studio.mapEmbedUrl`) + «Дивитись на карті» link (`studio.mapUrl`); `studio.geo` feeds JSON-LD. The client will rename the Maps listing, Instagram and Telegram — update `studio.ts` then.
+- Map (`Location.astro`): keyless Google Maps `<iframe>` (`studio.mapEmbedUrl`) + «Дивитись на карті» link (`studio.mapUrl`); `studio.geo` feeds JSON-LD. The client will rename the Maps listing and Telegram — update `studio.ts` then.
 
 ## Deploy
 

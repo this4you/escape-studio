@@ -40,7 +40,6 @@ export interface PriceItem {
 export const directions: Direction[] = [
   { name: 'Йога-терапія', photo: 'yoga-therapy', icon: 'lotus', description: 'Мʼяка практика для спини, суглобів і спокійної голови.' },
   { name: 'Пілатес', photo: 'pilates', icon: 'mat', description: 'Сильний центр, рівна постава та контроль кожного руху.' },
-  { name: 'Стретчинг', photo: 'stretching', icon: 'heart', description: 'Гнучкість, легкість і розслаблені мʼязи.' },
   { name: 'High Heels', photo: 'high-heels', icon: 'heel', description: 'Танець на підборах: пластика, впевненість, жіночність.' },
   { name: 'Lady Dance', photo: 'lady-dance', icon: 'star', description: 'Жіночна танцювальна пластика, грація та впевненість у собі.' },
   { name: 'Body Intensive', photo: 'body-intensive', icon: 'bolt', description: 'Функціональне тренування на все тіло та витривалість.' },
