@@ -7,7 +7,7 @@ import { studio } from '../data/studio';
 <section class="cta" aria-labelledby="cta-title">
   <div class="container cta__inner">
     <div>
-      <h2 id="cta-title">Готова <br />до руху?</h2>
+      <h2 id="cta-title">Готова <br />до <em>руху?</em></h2>
       <a class="btn" href={studio.bookingUrl} target="_blank" rel="noopener">
         Онлайн запис <Icon name="arrow" size={18} />
       </a>
@@ -65,8 +65,18 @@ import { studio } from '../data/studio';
   }
 
   h2 {
-    font-size: clamp(1.75rem, 5vw, 3rem);
-    margin-bottom: 32px;
+    font-size: clamp(2.4rem, 7vw, 5rem);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.035em;
+    margin-bottom: 36px;
+  }
+
+  h2 em {
+    background: var(--text-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   .cta :global(.cta__visual) {
@@ -77,14 +87,15 @@ import { studio } from '../data/studio';
   /* design-1 CTA photo is a narrow portrait shot. */
   :global(:root[data-theme='neon']) .cta :global(.cta__visual) {
     width: 100%;
-    max-width: 260px;
+    max-width: 300px;
+    height: 360px;
     justify-self: end;
-    border-radius: var(--radius) var(--radius) 0 0;
+    border-radius: 999px 999px 0 0;
   }
 
   .footer {
     border-top: 1px solid var(--line);
-    padding-block: 32px;
+    padding-block: 40px;
     font-size: 0.9rem;
   }
 
@@ -112,6 +123,12 @@ import { studio } from '../data/studio';
     color: var(--text);
   }
 
+  /* 44px minimum tap target, also for a one-line phone without a note. */
+  address a {
+    min-height: 44px;
+    padding-block: 2px;
+  }
+
   address a:hover,
   .social a:hover {
     color: var(--pink);
@@ -131,7 +148,23 @@ import { studio } from '../data/studio';
 
   .social {
     display: flex;
-    gap: 16px;
+    gap: 10px;
+  }
+
+  .social a {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    transition:
+      border-color 0.2s,
+      color 0.2s;
+  }
+
+  .social a:hover {
+    border-color: var(--pink);
   }
 
   .copy {

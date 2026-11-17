@@ -2,143 +2,222 @@
 import Icon from './Icon.astro';
 import { prices } from '../data/content';
 import { studio } from '../data/studio';
+
+// One flat grid of equal tiles; the group label becomes a tag on each tile.
+const items = prices.flatMap((g) => g.columns.flat().map((item) => ({ ...item, group: g.label })));
 ---
 
 <section class="section" id="prices" aria-labelledby="prices-title">
   <div class="container">
-    <h2 class="section-title" id="prices-title">Прайс</h2>
-    <p class="promo">Перше заняття — безкоштовно</p>
-    {
-      prices.map((g) => (
-        <div class="group">
-          {g.label && <h3>{g.label}</h3>}
-          <div class="columns">
-            {g.columns.map((column) => (
-              <ul class="list">
-                {column.map((item) => (
-                  <li>
-                    <a
-                      class:list={['item', { 'item--featured': item.featured }]}
-                      href={studio.bookingUrl}
-                      target="_blank"
-                      rel="noopener"
-                    >
-                      <span class="item__title">
-                        {item.title}
-                        {item.note && <small>{item.note}</small>}
-                      </span>
-                      <span class="item__prices">
-                        {item.prices.map((p) => (
-                          <span class="price">
-                            {p.label && <small>{p.label}</small>}
-                            <strong>{p.value}</strong>
-                          </span>
-                        ))}
-                      </span>
-                      <Icon name="arrow" size={20} class="item__arrow" />
-                    </a>
-                  </li>
+    <div class="head section-head">
+      <div>
+        <p class="eyebrow">Вартість</p>
+        <h2 class="section-title" id="prices-title">Прайс</h2>
+      </div>
+      <p class="promo">Перше заняття — безкоштовно</p>
+    </div>
+    <ul class="grid">
+      {
+        items.map((item) => (
+          <li class="reveal-item">
+            <a
+              class:list={['tile', { 'tile--featured': item.featured }]}
+              href={studio.bookingUrl}
+              target="_blank"
+              rel="noopener"
+            >
+              <span class="tile__tag">{item.group ?? 'Без абонемента'}</span>
+              <h3 class="tile__title">{item.title}</h3>
+              {item.note && <span class="tile__note">{item.note}</span>}
+              <span class="tile__prices">
+                {item.prices.map((p) => (
+                  <span class="price">
+                    <strong>{p.value}</strong>
+                    {p.label && <small>{p.label}</small>}
+                  </span>
                 ))}
-              </ul>
-            ))}
-          </div>
-        </div>
-      ))
-    }
+              </span>
+              <span class="tile__arrow" aria-hidden="true">
+                <Icon name="arrow" size={18} />
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </section>
 
 <style>
-  .promo {
-    display: inline-block;
-    margin: -16px 0 24px;
-    padding: 6px 16px;
-    border-radius: 999px;
-    border: 1px solid var(--gold);
-    color: var(--gold);
-    font-size: 0.8rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .group + .group {
-    margin-top: 32px;
-  }
-
-  h3 {
-    font-size: 0.9rem;
-    letter-spacing: 0.16em;
-    color: var(--text-muted);
-    margin-bottom: 16px;
-  }
-
-  .columns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-
-  .list {
+  .head {
     display: flex;
-    flex-direction: column;
-    gap: 12px;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px 32px;
+    margin-bottom: clamp(32px, 5vw, 56px);
+  }
+
+  .head .section-title {
+    margin-bottom: 0;
+  }
+
+  .promo {
+    margin: 0;
+    padding: 8px 18px;
+    border-radius: 999px;
+    border: 1px solid rgb(234 219 138 / 0.35);
+    background: rgb(234 219 138 / 0.08);
+    color: var(--gold);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
     list-style: none;
     margin: 0;
     padding: 0;
   }
 
-  .item {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 18px 20px;
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius);
-    background: var(--bg-raised);
-    text-decoration: none;
-    transition:
-      border-color 0.2s,
-      box-shadow 0.2s;
-  }
-
-  .item:hover,
-  .item--featured {
-    border-color: var(--pink);
-    box-shadow: var(--glow);
-  }
-
-  .item__title {
-    flex: 1;
-    font-size: 0.9rem;
-  }
-
-  small {
-    display: block;
-    color: var(--text-muted);
-    font-size: 0.75rem;
-  }
-
-  .item__prices {
+  .tile {
+    position: relative;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    text-align: right;
+    height: 100%;
+    min-height: 260px;
+    padding: 24px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    text-decoration: none;
+    transition:
+      border-color 0.3s,
+      background-color 0.3s,
+      transform 0.3s var(--ease);
+  }
+
+  .tile:hover {
+    border-color: rgb(246 161 200 / 0.6);
+    background: var(--surface-hover);
+    transform: translateY(-3px);
+  }
+
+  .tile--featured {
+    border-color: rgb(246 161 200 / 0.5);
+    background:
+      radial-gradient(120% 120% at 0% 0%, rgb(255 126 182 / 0.2), transparent 60%),
+      var(--surface);
+  }
+
+  .tile__tag {
+    align-self: flex-start;
+    margin-bottom: 20px;
+    padding: 4px 12px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .tile--featured .tile__tag {
+    border-color: rgb(246 161 200 / 0.5);
+    color: var(--pink);
+  }
+
+  .tile__title {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 1.35;
+    padding-right: 8px;
+  }
+
+  .tile__note {
+    margin-top: 6px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .tile__prices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 28px;
+    margin-top: auto;
+    padding-top: 28px;
+    padding-right: 56px;
+  }
+
+  .price {
+    display: flex;
+    flex-direction: column;
   }
 
   strong {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.5rem, 2.4vw, 1.9rem);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
     color: var(--pink);
     white-space: nowrap;
   }
 
-  .item :global(.item__arrow) {
-    flex-shrink: 0;
+  small {
+    font-size: 0.8rem;
     color: var(--text-muted);
   }
 
-  @media (max-width: 860px) {
-    .columns {
+  .tile__arrow {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    color: var(--text-muted);
+    transition:
+      background-color 0.3s,
+      color 0.3s,
+      border-color 0.3s,
+      transform 0.3s var(--ease);
+  }
+
+  .tile:hover .tile__arrow,
+  .tile--featured .tile__arrow {
+    background: var(--accent-grad);
+    border-color: transparent;
+    color: var(--on-accent);
+  }
+
+  .tile:hover .tile__arrow {
+    transform: rotate(-45deg);
+  }
+
+  @media (max-width: 1000px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .grid {
       grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .tile {
+      min-height: 0;
+      padding: 20px;
     }
   }
 </style>

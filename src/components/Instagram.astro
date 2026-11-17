@@ -6,7 +6,7 @@ import { studio } from '../data/studio';
 <section class="section" id="instagram" aria-labelledby="instagram-title">
   <div class="container">
     <div class="insta">
-      <Icon name="instagram" size={40} class="insta__icon" />
+      <Icon name="instagram" size={32} class="insta__icon" />
       <div class="insta__text">
         <h2 id="instagram-title">Хочеш дізнатись більше?</h2>
         <p>Переходь на наш Instagram — там основний контент: відео з тренувань, новини та анонси студії.</p>
@@ -24,16 +24,23 @@ import { studio } from '../data/studio';
     flex-wrap: wrap;
     align-items: center;
     gap: 20px 28px;
-    padding: clamp(24px, 4vw, 40px);
-    border: 1px solid var(--pink);
-    border-radius: var(--radius);
-    background: var(--bg-raised);
-    box-shadow: var(--glow);
+    padding: clamp(28px, 5vw, 56px);
+    border: 1px solid rgb(246 161 200 / 0.3);
+    border-radius: calc(var(--radius) + 6px);
+    background:
+      radial-gradient(80% 120% at 100% 0%, rgb(242 160 255 / 0.22), transparent 60%),
+      radial-gradient(70% 120% at 0% 100%, rgb(255 126 182 / 0.22), transparent 60%),
+      var(--bg-raised);
+    overflow: hidden;
   }
 
   .insta :global(.insta__icon) {
     flex-shrink: 0;
-    color: var(--pink);
+    box-sizing: content-box;
+    padding: 14px;
+    border-radius: 20px;
+    background: var(--accent-grad);
+    color: var(--on-accent);
   }
 
   .insta__text {
@@ -41,7 +48,8 @@ import { studio } from '../data/studio';
   }
 
   h2 {
-    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    font-size: clamp(1.4rem, 3vw, 2.1rem);
+    font-weight: 500;
   }
 
   p {

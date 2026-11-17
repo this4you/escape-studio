@@ -3,11 +3,12 @@ import Icon from './Icon.astro';
 import Logo from './Logo.astro';
 import { studio } from '../data/studio';
 
+// Same order as the sections on the page (see index.astro), so the scroll-spy highlight moves left to right.
 const links = [
-  { href: '#about', label: 'Про студію' },
   { href: '#directions', label: 'Напрямки' },
   { href: '#schedule', label: 'Розклад' },
   { href: '#trainers', label: 'Тренери' },
+  { href: '#about', label: 'Про студію' },
   { href: '#prices', label: 'Прайс' },
   { href: '#contacts', label: 'Контакти' },
 ];
@@ -19,24 +20,91 @@ const links = [
       <Logo class="logo__mark" />
       <span class="logo__tag">{studio.tagline}</span>
     </a>
-    <nav aria-label="Основна навігація">
+    <!-- Desktop: inline bar. Mobile: a popover menu opened by the burger (Popover API, no framework). -->
+    <nav class="menu" id="menu" popover aria-label="Основна навігація">
+      <button class="burger menu__close" type="button" popovertarget="menu" popovertargetaction="hide" aria-label="Закрити меню">
+        <span></span><span></span>
+      </button>
       <ul class="nav">
         {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
       </ul>
+      <a class="btn menu__cta" href={studio.bookingUrl} target="_blank" rel="noopener">
+        Онлайн запис <Icon name="arrow" size={18} />
+      </a>
     </nav>
-    <a class="btn btn--ghost" href={studio.bookingUrl} target="_blank" rel="noopener">
-      Онлайн запис <Icon name="arrow" size={18} />
-    </a>
+    <div class="header__actions">
+      <a class="btn btn--sm header__cta" href={studio.bookingUrl} target="_blank" rel="noopener">
+        Онлайн запис <Icon name="arrow" size={16} />
+      </a>
+      <button class="burger" type="button" popovertarget="menu" aria-label="Меню">
+        <span></span><span></span>
+      </button>
+    </div>
   </div>
 </header>
+
+<!-- Phones only: booking button pinned to the bottom between the hero and the final CTA (header CTA is hidden there). -->
+<a class="btn sticky-cta" id="sticky-cta" href={studio.bookingUrl} target="_blank" rel="noopener">
+  Онлайн запис <Icon name="arrow" size={18} />
+</a>
+
+<script>
+  // Close the mobile menu after picking a section.
+  const menu = document.getElementById('menu');
+  menu?.addEventListener('click', (e) => {
+    if ((e.target as Element).closest('a') && menu.matches(':popover-open')) menu.hidePopover();
+  });
+
+  // Scroll-spy: mark the nav link of the section currently in view with aria-current.
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.nav a[href^="#"]')];
+  const sections = links
+    .map((a) => ({ a, el: document.getElementById(a.hash.slice(1)) }))
+    .filter((s): s is { a: HTMLAnchorElement; el: HTMLElement } => !!s.el);
+
+  const stickyCta = document.getElementById('sticky-cta');
+  const hero = document.querySelector('.hero');
+  const finalCta = document.querySelector('.cta');
+
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    // Sticky booking button: only after the hero's own buttons scrolled away and before the final CTA appears.
+    const pastHero = !hero || hero.getBoundingClientRect().bottom < 0;
+    const beforeEnd = !finalCta || finalCta.getBoundingClientRect().top > innerHeight;
+    stickyCta?.toggleAttribute('data-show', pastHero && beforeEnd);
+
+    const line = innerHeight * 0.4;
+    const atBottom = innerHeight + scrollY >= document.documentElement.scrollHeight - 4;
+    // Section crossing the 40% line (none between linked sections); at the very bottom, the last one (footer contacts).
+    const active =
+      (atBottom && sections.at(-1)) ||
+      sections.find(({ el }) => {
+        const r = el.getBoundingClientRect();
+        return r.top <= line && r.bottom > line;
+      });
+    for (const { a } of sections) {
+      if (a === active?.a) a.setAttribute('aria-current', 'location');
+      else a.removeAttribute('aria-current');
+    }
+  };
+  const onScroll = () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  };
+  addEventListener('scroll', onScroll, { passive: true });
+  addEventListener('resize', onScroll);
+  update();
+</script>
 
 <style>
   .header {
     position: sticky;
     top: 0;
-    z-index: 10;
-    background: rgb(14 11 13 / 0.82);
-    backdrop-filter: blur(12px);
+    z-index: 20;
+    background: rgb(12 10 12 / 0.7);
+    backdrop-filter: blur(18px) saturate(140%);
     border-bottom: 1px solid var(--line);
   }
 
@@ -45,7 +113,7 @@ const links = [
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    min-height: 72px;
+    min-height: 76px;
   }
 
   .logo {
@@ -56,13 +124,13 @@ const links = [
   }
 
   .logo :global(.logo__mark) {
-    width: 132px;
+    width: 124px;
     height: auto;
   }
 
   .logo__tag {
-    font-size: 0.65rem;
-    letter-spacing: 0.52em;
+    font-size: 0.6rem;
+    letter-spacing: 0.5em;
     text-transform: uppercase;
     color: var(--text-muted);
     margin-top: 7px;
@@ -70,35 +138,188 @@ const links = [
 
   .nav {
     display: flex;
-    gap: 28px;
+    gap: 4px;
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 4px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
   }
 
   .nav a {
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    display: block;
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 500;
     text-decoration: none;
     color: var(--text-muted);
-    transition: color 0.2s;
+    transition:
+      color 0.2s,
+      background-color 0.2s;
   }
 
   .nav a:hover {
-    color: var(--pink);
+    color: var(--text);
+    background: var(--surface-hover);
   }
 
-  @media (max-width: 900px) {
-    nav {
-      display: none;
+  .nav a[aria-current] {
+    color: var(--on-accent);
+    background: var(--pink);
+  }
+
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .burger {
+    display: none;
+  }
+
+  .menu__cta {
+    display: none;
+  }
+
+  /* Desktop: the popover nav is shown inline as a normal element. */
+  @media (min-width: 1001px) {
+    .menu {
+      display: block;
+      position: static;
+      inset: auto;
+      width: auto;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      background: none;
+      color: inherit;
+      overflow: visible;
     }
   }
 
-  @media (max-width: 420px) {
-    .header .btn {
-      padding: 8px 14px;
-      font-size: 0.7rem;
+  @media (max-width: 1000px) {
+    .burger {
+      display: grid;
+      place-content: center;
+      gap: 6px;
+      width: 44px;
+      height: 44px;
+      padding: 0;
+      border: 1px solid var(--line-strong);
+      border-radius: 50%;
+      background: var(--surface);
+      cursor: pointer;
+    }
+
+    .burger span {
+      display: block;
+      width: 18px;
+      height: 1.5px;
+      background: var(--text);
+    }
+
+    .menu {
+      inset: 0;
+      width: 100%;
+      height: 100dvh;
+      max-width: none;
+      max-height: none;
+      margin: 0;
+      padding: 96px var(--gutter) 40px;
+      border: 0;
+      background: rgb(12 10 12 / 0.96);
+      backdrop-filter: blur(20px);
+      color: var(--text);
+    }
+
+    .menu:popover-open {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .menu::backdrop {
+      background: transparent;
+    }
+
+    .nav {
+      flex-direction: column;
+      gap: 0;
+      padding: 0;
+      border: 0;
+      background: none;
+    }
+
+    .nav a {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+      border-radius: 0;
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--text);
+    }
+
+    .nav a:hover,
+    .nav a[aria-current] {
+      background: none;
+      color: var(--pink);
+    }
+
+    .menu__cta {
+      display: inline-flex;
+      align-self: flex-start;
+    }
+  }
+
+  .menu__close {
+    position: absolute;
+    top: 16px;
+    right: var(--gutter);
+  }
+
+  .menu__close span:first-child {
+    transform: translateY(3.75px) rotate(45deg);
+  }
+
+  .menu__close span:last-child {
+    transform: translateY(-3.75px) rotate(-45deg);
+  }
+
+  .sticky-cta {
+    display: none;
+  }
+
+  @media (max-width: 480px) {
+    .header__cta {
+      display: none;
+    }
+
+    .sticky-cta {
+      display: inline-flex;
+      position: fixed;
+      z-index: 15;
+      left: var(--gutter);
+      right: var(--gutter);
+      bottom: max(16px, env(safe-area-inset-bottom));
+      box-shadow: 0 12px 40px -8px rgb(0 0 0 / 0.7), var(--glow-soft);
+      /* Hidden state stays out of the tab order via visibility. */
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(24px);
+      transition:
+        opacity 0.3s var(--ease),
+        transform 0.3s var(--ease),
+        visibility 0.3s;
+    }
+
+    .sticky-cta[data-show] {
+      visibility: visible;
+      opacity: 1;
+      transform: none;
     }
   }
 </style>

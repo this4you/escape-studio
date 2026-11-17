@@ -6,11 +6,14 @@ import { adultSchedule, kidsSchedule } from '../data/content';
 
 <section class="section" id="schedule" aria-labelledby="schedule-title">
   <div class="container">
-    <h2 class="visually-hidden" id="schedule-title">Розклад занять</h2>
+    <div class="section-head">
+      <p class="eyebrow">Обирай свій час</p>
+      <h2 class="section-title" id="schedule-title">Розклад занять</h2>
+    </div>
     <div class="columns">
-      <ScheduleTable title="Розклад" subtitle="для дорослих" id="schedule-adults" groups={adultSchedule} />
+      <ScheduleTable title="Для дорослих" subtitle="йога · пілатес · танці · стретчинг" id="schedule-adults" groups={adultSchedule} />
       <div>
-        <ScheduleTable title="Розклад" subtitle="для дітей" id="schedule-kids" groups={kidsSchedule} />
+        <ScheduleTable title="Для дітей" subtitle="групи 3–6 та 7+ років" id="schedule-kids" groups={kidsSchedule} />
         <Photo name="schedule" alt="Зал студії ESCAPE з неоновою вивіскою" class="hall"><span aria-hidden="true">Escape</span></Photo>
       </div>
     </div>
@@ -25,10 +28,10 @@ import { adultSchedule, kidsSchedule } from '../data/content';
   }
 
   .columns :global(.hall) {
-    margin-top: 12px;
-    aspect-ratio: 16 / 8;
+    margin-top: 16px;
+    aspect-ratio: 16 / 9;
     border-radius: var(--radius);
-    border: 1px solid var(--line-strong);
+    border: 1px solid var(--line);
     display: grid;
     place-items: center;
   }

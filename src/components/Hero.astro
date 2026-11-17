@@ -2,102 +2,88 @@
 import Icon from './Icon.astro';
 import Photo from './Photo.astro';
 import { studio } from '../data/studio';
+import { directions } from '../data/content';
+
+const facts = [
+  { value: String(directions.length), label: 'напрямків' },
+  { value: '6–8', label: 'людей у групі' },
+  { value: '3+', label: 'років — для дітей' },
+];
 ---
 
 <section class="hero" id="top" aria-labelledby="hero-title">
+  <Photo name="hero" alt="Тренування з йоги у студії ESCAPE" class="hero__visual" priority />
   <div class="container hero__inner">
     <div class="hero__content">
+      <p class="badge"><span class="badge__dot" aria-hidden="true"></span> Перше заняття — безкоштовно</p>
       <h1 id="hero-title">
-        Твій простір <br />для руху
+        Твій простір <br />для <em>руху</em>
         <span class="visually-hidden">— студія руху {studio.name} у {studio.address.localityIn}, {studio.address.city}</span>
       </h1>
       <p class="hero__quote">
         Ти не можеш керувати всім, що відбувається навколо. Але можеш обрати, як почуватися всередині.
       </p>
-      <p class="hero__lead">
-        Тому ми створили {studio.name}. Сучасна студія руху для дітей та дорослих у {studio.address.localityIn}, де
-        можна переключити увагу з усього зовнішнього на СЕБЕ. На своє тіло, дихання, рух і власний стан. Тренування,
-        що надихають, відновлюють і дають енергію. <strong>Перше заняття — безкоштовне.</strong>
-      </p>
-      <a class="btn" href={studio.bookingUrl} target="_blank" rel="noopener">
-        Онлайн запис <Icon name="arrow" size={18} />
-      </a>
+      <div class="hero__actions">
+        <a class="btn" href={studio.bookingUrl} target="_blank" rel="noopener">
+          Онлайн запис <Icon name="arrow" size={18} />
+        </a>
+        <a class="btn btn--ghost" href="#schedule">Розклад занять</a>
+      </div>
+      <ul class="facts">
+        {
+          facts.map((f) => (
+            <li>
+              <strong>{f.value}</strong>
+              <span>{f.label}</span>
+            </li>
+          ))
+        }
+      </ul>
     </div>
-    <Photo name="hero" alt="Тренування з йоги у студії ESCAPE" class="hero__visual" priority />
+  </div>
+</section>
+
+<section class="intro" aria-label="Про ESCAPE коротко">
+  <div class="container">
+    <p class="intro__text">
+      Тому ми створили {studio.name} — сучасну студію руху для дітей та дорослих у {studio.address.localityIn}, де можна
+      переключити увагу з усього зовнішнього на <em>себе</em>: на своє тіло, дихання, рух і власний стан. Тренування,
+      що надихають, відновлюють і дають енергію.
+    </p>
   </div>
 </section>
 
 <style>
   .hero {
     position: relative;
-    background: var(--hero-glow);
-    padding-block: clamp(40px, 7vw, 88px);
-    overflow: hidden;
-  }
-
-  .hero__inner {
-    display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    gap: 40px;
-    align-items: center;
-  }
-
-  h1 {
-    font-size: clamp(2rem, 6vw, 4rem);
-    color: var(--pink);
-    text-shadow: var(--glow);
-  }
-
-  .hero__quote {
-    max-width: 46ch;
-    margin: 28px 0;
-    font-size: 0.8rem;
-    font-weight: 300;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    line-height: 1.8;
-  }
-
-  .hero__quote::after {
-    content: '';
-    display: block;
-    width: 32px;
-    height: 2px;
-    margin-top: 12px;
-    background: var(--gold);
-  }
-
-  .hero__lead {
-    max-width: 52ch;
-    margin: 0 0 32px;
-    color: var(--text-muted);
-  }
-
-  .hero__lead strong {
-    color: var(--text);
-  }
-
-  .hero__inner > * {
-    position: relative;
-    z-index: 1;
-  }
-
-  /* Both designs: the wide photo fills the hero behind the text. */
-  .hero {
-    min-height: min(640px, 80vh);
     display: flex;
-    align-items: center;
+    align-items: flex-end;
+    min-height: min(860px, calc(100svh - 76px));
+    padding-block: clamp(48px, 8vw, 96px);
+    overflow: hidden;
+    isolation: isolate;
   }
 
   .hero :global(.hero__visual) {
     position: absolute;
     inset: 0;
-    z-index: 0;
+    z-index: -1;
   }
 
   .hero :global(.photo__img) {
     object-position: 100% 20%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero :global(.photo__img) {
+      animation: zoom-out 1.8s var(--ease) both;
+    }
+  }
+
+  @keyframes zoom-out {
+    from {
+      transform: scale(1.08);
+    }
   }
 
   .hero :global(.hero__visual)::before {
@@ -105,16 +91,148 @@ import { studio } from '../data/studio';
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: linear-gradient(90deg, var(--bg) 15%, transparent 60%), linear-gradient(0deg, var(--bg), transparent 25%);
+    background:
+      linear-gradient(90deg, rgb(12 10 12 / 0.92) 10%, rgb(12 10 12 / 0.35) 55%, transparent 80%),
+      linear-gradient(0deg, var(--bg) 0%, transparent 35%);
+  }
+
+  .hero__content {
+    max-width: 780px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 28px;
+    padding: 8px 16px 8px 12px;
+    border: 1px solid rgb(234 219 138 / 0.35);
+    border-radius: 999px;
+    background: rgb(234 219 138 / 0.08);
+    backdrop-filter: blur(10px);
+    color: var(--gold);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .badge__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 0 0 rgb(234 219 138 / 0.6);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .badge__dot {
+      animation: pulse 2.2s infinite;
+    }
+  }
+
+  @keyframes pulse {
+    70% {
+      box-shadow: 0 0 0 10px rgb(234 219 138 / 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgb(234 219 138 / 0);
+    }
+  }
+
+  h1 {
+    font-size: clamp(2.6rem, 7.5vw, 5.75rem);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.035em;
+  }
+
+  h1 :global(em),
+  h1 em {
+    background: var(--text-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    padding-right: 0.08em;
+  }
+
+  .hero__quote {
+    max-width: 44ch;
+    margin: 28px 0 36px;
+    font-size: clamp(1rem, 1.6vw, 1.15rem);
+    color: rgb(246 240 243 / 0.78);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 40px;
+    margin: 48px 0 0;
+    padding: 24px 0 0;
+    list-style: none;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .facts li {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .facts strong {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .facts span {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+
+  .intro {
+    padding-block: clamp(56px, 9vw, 112px) 0;
+  }
+
+  .intro__text {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 3.2vw, 2.4rem);
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    max-width: 38ch;
+  }
+
+  .intro__text em {
+    font-family: var(--font-accent);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.15em;
+    color: var(--pink);
   }
 
   @media (max-width: 800px) {
-    .hero__inner {
-      grid-template-columns: 1fr;
+    .hero {
+      align-items: flex-end;
+      min-height: min(760px, calc(100svh - 76px));
+    }
+
+    .hero :global(.photo__img) {
+      object-position: 70% 20%;
     }
 
     .hero :global(.hero__visual)::before {
-      background: linear-gradient(0deg, var(--bg) 10%, color-mix(in srgb, var(--bg) 55%, transparent));
+      background: linear-gradient(0deg, var(--bg) 8%, rgb(12 10 12 / 0.7) 55%, rgb(12 10 12 / 0.2));
+    }
+
+    .facts {
+      gap: 12px 28px;
     }
   }
 </style>

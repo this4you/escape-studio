@@ -16,7 +16,7 @@ Main business goal is local SEO and promotion, so treat semantic HTML, meta tags
 
 ## Architecture
 
-Astro 7, static output, no client-side JS. No UI framework, no CSS framework.
+Astro 7, static output, no client-side JS except one small script in `Header.astro` (mobile-menu close, scroll-spy that sets `aria-current` on the nav link of the visible section, and the phone-only sticky «Онлайн запис» button shown between the hero and the final CTA). No UI framework, no CSS framework.
 
 - **Content is data-driven.** Edit `src/data/` rather than markup:
   - `studio.ts` — business info (name, contacts, address, booking URL, socials, SEO title/description). Single source of truth used by the page, `<head>` meta and JSON-LD.
@@ -30,13 +30,15 @@ Astro 7, static output, no client-side JS. No UI framework, no CSS framework.
 
 ## Design
 
-The client chose the `neon` design (design-1): `<html data-theme="neon">` is hardcoded in `Base.astro` and `themes` in `src/data/photos.ts` lists only `neon`. The `graphite` (design-2) rules on `:root` in `global.css`, the `:root:not([data-theme='neon'])` selectors and `src/assets/photos/graphite/` are leftovers to delete in a cleanup.
+The client chose the `neon` design (design-1): `<html data-theme="neon">` is hardcoded in `Base.astro` and `themes` in `src/data/photos.ts` lists only `neon`. Design tokens live on `:root` in `global.css` (neon values only). The `:root:not([data-theme='neon'])` selectors and `src/assets/photos/graphite/` are leftovers to delete in a cleanup.
 
-Fonts: Unbounded (display) + Manrope (body), both with Cyrillic — `--font-display` / `--font-body` on `:root` in `global.css`, loaded by one Google Fonts `<link>` in `Base.astro`.
+Fonts: Unbounded (display, sentence case) + Onest (body) + Cormorant Garamond italic (accent: an `<em>` inside an `h1`/`h2`), all with Cyrillic — `--font-display` / `--font-body` / `--font-accent` on `:root` in `global.css`, loaded by one Google Fonts `<link>` in `Base.astro`.
+
+Header nav is a `popover` element: inline bar on desktop, full-screen menu behind the burger on ≤1000px (its `<script>` closes it after a link click). Section headings use `.section-head` (`.eyebrow` + `.section-title`); cards with `.reveal-item` get a scroll-driven entrance.
 
 Schedule day tabs are CSS-only radio groups (`.tabs` / `.tablist` / `.tabpanels` in `global.css`, uses `:has()`); in `neon` the tab list is hidden and all panels are stacked with their `.tabpanel__label` headings visible.
 
-Motion is CSS-only (`reveal` keyframes in `global.css`): hero fade-in plus scroll-driven section reveal behind `@supports (animation-timeline: view())` and `prefers-reduced-motion`.
+Motion is CSS-only (`reveal` keyframes in `global.css`): staggered hero entrance plus scroll-driven reveal of `.section-head` and `.reveal-item` behind `@supports (animation-timeline: view())` and `prefers-reduced-motion`.
 
 ## Conventions & gotchas
 
