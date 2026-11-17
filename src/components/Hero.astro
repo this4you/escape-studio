@@ -218,20 +218,20 @@ const facts = [
   }
 
   /* Phones: the banner's four faces sit at 60–95% of its width, so instead of a full-height background
-     the photo becomes a square block on top showing the right half of the 2:1 banner. Its lower part fades out
-     (mask, so no seam against the page glow) and the badge + heading sit over that fade. */
+     the photo becomes a 5:4 block on top showing the right ~60% of the 2:1 banner (faces end at ~50% of its height).
+     Its lower part fades out (mask, so no seam against the page glow) and the badge + heading sit over that fade. */
   @media (max-width: 800px) {
     .hero {
       display: block;
       min-height: 0;
-      padding-top: 64vw;
+      padding-top: 52vw;
       padding-bottom: 48px;
     }
 
     .hero :global(.hero__visual) {
       inset: 0 0 auto;
-      aspect-ratio: 1;
-      mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+      aspect-ratio: 5 / 4;
+      mask-image: linear-gradient(180deg, #000 62%, transparent 100%);
     }
 
     .hero :global(.photo__img) {
