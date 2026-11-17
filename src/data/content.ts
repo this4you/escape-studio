@@ -29,12 +29,23 @@ export interface Trainer {
   bio?: string;
 }
 
-export interface PriceItem {
-  title: string;
+export interface PriceOption {
+  // Label in the pill on the card, e.g. «АБОНЕМЕНТ НА 8 ЗАНЯТЬ».
+  tag: string;
+  amount: number;
+  unit: 'грн' | 'грн/міс';
+  // Thin caption under the price, e.g. «2 рази на тиждень».
   note?: string;
-  // Highlighted card (e.g. the single-class price).
+}
+
+export interface PriceCard {
+  title: string;
+  subtitle?: string;
+  // Highlighted card (the single-class price).
   featured?: boolean;
-  prices: { label?: string; value: string }[];
+  // One option = a regular card. Several options with the same title = one wide card:
+  // the options side by side and a shared plate with the title underneath.
+  options: PriceOption[];
 }
 
 export const directions: Direction[] = [
@@ -95,47 +106,38 @@ export const aboutFeatures: { label: string; icon: IconName }[] = [
   { label: 'Для дітей та дорослих', icon: 'people' },
 ];
 
-export interface PriceGroup {
-  // Group heading; omitted for the stand-alone single-class price.
-  label?: string;
-  // Rendered as up to two columns.
-  columns: PriceItem[][];
-}
+const twice = '2 рази на тиждень';
+const combinable = 'Напрямки можна поєднувати';
 
-export const prices: PriceGroup[] = [
+export const prices: PriceCard[] = [
   {
-    columns: [[{ title: 'Разове заняття', featured: true, prices: [{ value: '400 грн' }] }]],
+    title: 'Разове заняття',
+    featured: true,
+    options: [{ tag: 'Без абонемента', amount: 400, unit: 'грн' }],
   },
   {
-    label: 'Для дітей',
-    columns: [
-      [{ title: 'Дитяча група 3–6 р.', note: '2 рази на тиждень', prices: [{ value: '1450 грн/міс' }] }],
-      [{ title: 'Modern Dance 7+ р.', note: '2 рази на тиждень', prices: [{ value: '1750 грн/міс' }] }],
+    title: 'Пілатес, Body Intensive, Relax Stretching',
+    subtitle: combinable,
+    options: [
+      { tag: 'Абонемент на 8 занять', amount: 1750, unit: 'грн/міс', note: twice },
+      { tag: 'Абонемент на 12 занять', amount: 1999, unit: 'грн/міс', note: '3 рази на тиждень' },
     ],
   },
   {
-    label: 'Для дорослих',
-    columns: [
-      [
-        {
-          title: 'High Heels, Йога-терапія, Lady Dance',
-          note: '2 рази на тиждень',
-          prices: [{ value: '1950 грн/міс' }],
-        },
-      ],
-      [
-        {
-          title: 'Body Intensive + Stretching, Пілатес, Relax Stretching',
-          prices: [
-            { label: '2 рази на тиждень', value: '1750 грн/міс' },
-            { label: '3 рази на тиждень', value: '1999 грн/міс' },
-          ],
-        },
-      ],
-    ],
+    title: 'Йога-терапія',
+    options: [{ tag: 'Йога-терапія 8 занять', amount: 1950, unit: 'грн/міс', note: twice }],
   },
   {
-    label: 'Додатково',
-    columns: [[{ title: 'Кінезіотейпування', note: '1 зона', prices: [{ value: '300 грн' }] }]],
+    title: 'Lady Dance, High Heels',
+    subtitle: combinable,
+    options: [{ tag: 'Танцювальний абонемент 8 занять', amount: 1950, unit: 'грн/міс', note: twice }],
+  },
+  {
+    title: 'Дитяча група 3–6 р.',
+    options: [{ tag: 'Дитячий абонемент 8 занять', amount: 1450, unit: 'грн/міс', note: twice }],
+  },
+  {
+    title: 'Modern Dance 7+ р.',
+    options: [{ tag: 'Підлітковий абонемент 8 занять', amount: 1750, unit: 'грн/міс', note: twice }],
   },
 ];

@@ -1,10 +1,9 @@
 ---
 import Icon from './Icon.astro';
-import { prices } from '../data/content';
+import { prices, type PriceOption } from '../data/content';
 import { studio } from '../data/studio';
 
-// One flat grid of equal tiles; the group label becomes a tag on each tile.
-const items = prices.flatMap((g) => g.columns.flat().map((item) => ({ ...item, group: g.label })));
+const fmt = (o: PriceOption) => `${o.amount} ${o.unit}`;
 ---
 
 <section class="section" id="prices" aria-labelledby="prices-title">
@@ -18,31 +17,59 @@ const items = prices.flatMap((g) => g.columns.flat().map((item) => ({ ...item, g
     </div>
     <ul class="grid">
       {
-        items.map((item) => (
-          <li class="reveal-item">
-            <a
-              class:list={['tile', { 'tile--featured': item.featured }]}
-              href={studio.bookingUrl}
-              target="_blank"
-              rel="noopener"
-            >
-              <span class="tile__tag">{item.group ?? 'Без абонемента'}</span>
-              <h3 class="tile__title">{item.title}</h3>
-              {item.note && <span class="tile__note">{item.note}</span>}
-              <span class="tile__prices">
-                {item.prices.map((p) => (
-                  <span class="price">
-                    <strong>{p.value}</strong>
-                    {p.label && <small>{p.label}</small>}
-                  </span>
-                ))}
-              </span>
-              <span class="tile__arrow" aria-hidden="true">
-                <Icon name="arrow" size={18} />
-              </span>
-            </a>
-          </li>
-        ))
+        prices.map((card) =>
+          card.options.length === 1 ? (
+            <li class="reveal-item">
+              <a
+                class:list={['tile', { 'tile--featured': card.featured }]}
+                href={studio.bookingUrl}
+                target="_blank"
+                rel="noopener"
+                aria-label={`${card.title}: ${fmt(card.options[0])}, онлайн запис`}
+              >
+                <span class="tag">{card.options[0].tag}</span>
+                <h3 class="title">{card.title}</h3>
+                {card.subtitle && <span class="subtitle">{card.subtitle}</span>}
+                <span class="price">
+                  <span class="amount"><strong>{card.options[0].amount}</strong> {card.options[0].unit}</span>
+                  {card.options[0].note && <small>{card.options[0].note}</small>}
+                </span>
+                <span class="arrow" aria-hidden="true">
+                  <Icon name="arrow" size={18} />
+                </span>
+              </a>
+            </li>
+          ) : (
+            <li class="reveal-item wide">
+              <div class="bundle">
+                <div class="bundle__options">
+                  {card.options.map((o) => (
+                    <a
+                      class="tile tile--option"
+                      href={studio.bookingUrl}
+                      target="_blank"
+                      rel="noopener"
+                      aria-label={`${o.tag}, ${card.title}: ${fmt(o)}, онлайн запис`}
+                    >
+                      <span class="tag">{o.tag}</span>
+                      <span class="price">
+                        <span class="amount"><strong>{o.amount}</strong> {o.unit}</span>
+                        {o.note && <small>{o.note}</small>}
+                      </span>
+                      <span class="arrow" aria-hidden="true">
+                        <Icon name="arrow" size={18} />
+                      </span>
+                    </a>
+                  ))}
+                </div>
+                <div class="bundle__plate">
+                  <h3 class="title">{card.title}</h3>
+                  {card.subtitle && <span class="subtitle">{card.subtitle}</span>}
+                </div>
+              </div>
+            </li>
+          )
+        )
       }
     </ul>
   </div>
@@ -75,11 +102,16 @@ const items = prices.flatMap((g) => g.columns.flat().map((item) => ({ ...item, g
 
   .grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-flow: row dense;
     gap: 16px;
     list-style: none;
     margin: 0;
     padding: 0;
+  }
+
+  .wide {
+    grid-column: span 2;
   }
 
   .tile {
@@ -87,7 +119,7 @@ const items = prices.flatMap((g) => g.columns.flat().map((item) => ({ ...item, g
     display: flex;
     flex-direction: column;
     height: 100%;
-    min-height: 260px;
+    min-height: 280px;
     padding: 24px;
     border: 1px solid var(--line);
     border-radius: var(--radius);
@@ -112,69 +144,69 @@ const items = prices.flatMap((g) => g.columns.flat().map((item) => ({ ...item, g
       var(--surface);
   }
 
-  .tile__tag {
+  .tag {
     align-self: flex-start;
     margin-bottom: 20px;
     padding: 4px 12px;
     border: 1px solid var(--line-strong);
-    border-radius: 999px;
-    font-size: 0.75rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
     font-weight: 600;
+    line-height: 1.4;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--text-muted);
   }
 
-  .tile--featured .tile__tag {
+  .tile--featured .tag {
     border-color: rgb(246 161 200 / 0.5);
     color: var(--pink);
   }
 
-  .tile__title {
+  .title {
     font-family: var(--font-body);
     font-size: 1.1rem;
     font-weight: 600;
     letter-spacing: 0;
     line-height: 1.35;
-    padding-right: 8px;
   }
 
-  .tile__note {
+  .subtitle {
     margin-top: 6px;
     font-size: 0.85rem;
     color: var(--text-muted);
   }
 
-  .tile__prices {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px 28px;
+  /* Big number, small unit, thin «2 рази на тиждень» caption under it. */
+  .price {
     margin-top: auto;
     padding-top: 28px;
-    padding-right: 56px;
+    padding-right: 52px;
+    font-size: 0.9rem;
+    color: var(--pink);
   }
 
-  .price {
-    display: flex;
-    flex-direction: column;
+  .amount {
+    white-space: nowrap;
   }
 
   strong {
     font-family: var(--font-display);
     font-weight: 400;
-    font-size: clamp(1.5rem, 2.4vw, 1.9rem);
+    font-size: clamp(1.9rem, 2.6vw, 2.3rem);
     letter-spacing: -0.02em;
-    line-height: 1.15;
-    color: var(--pink);
-    white-space: nowrap;
+    line-height: 1;
   }
 
   small {
+    display: block;
+    margin-top: 6px;
     font-size: 0.8rem;
+    font-weight: 300;
     color: var(--text-muted);
   }
 
-  .tile__arrow {
+  .arrow {
     position: absolute;
     right: 20px;
     bottom: 20px;
@@ -192,18 +224,60 @@ const items = prices.flatMap((g) => g.columns.flat().map((item) => ({ ...item, g
       transform 0.3s var(--ease);
   }
 
-  .tile:hover .tile__arrow,
-  .tile--featured .tile__arrow {
+  .tile:hover .arrow,
+  .tile--featured .arrow {
     background: var(--accent-grad);
     border-color: transparent;
     color: var(--on-accent);
   }
 
-  .tile:hover .tile__arrow {
+  .tile:hover .arrow {
     transform: rotate(-45deg);
   }
 
-  @media (max-width: 1000px) {
+  /* Two subscriptions of the same directions: options side by side, shared plate underneath. */
+  .bundle {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    overflow: hidden;
+  }
+
+  .bundle__options {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .tile--option {
+    min-height: 200px;
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+
+  .tile--option + .tile--option {
+    border-left: 1px solid var(--line);
+  }
+
+  .tile--option:hover {
+    transform: none;
+  }
+
+  .bundle__plate {
+    padding: 18px 24px;
+    border-top: 1px solid rgb(246 161 200 / 0.25);
+    background: linear-gradient(90deg, rgb(255 126 182 / 0.14), rgb(242 160 255 / 0.08));
+  }
+
+  .bundle__plate .subtitle {
+    display: block;
+  }
+
+  @media (max-width: 1100px) {
     .grid {
       grid-template-columns: repeat(2, 1fr);
     }
@@ -215,9 +289,38 @@ const items = prices.flatMap((g) => g.columns.flat().map((item) => ({ ...item, g
       gap: 12px;
     }
 
+    .wide {
+      grid-column: auto;
+    }
+
     .tile {
       min-height: 0;
       padding: 20px;
+    }
+
+    .tile--option {
+      min-height: 170px;
+      padding: 18px 16px;
+    }
+
+    .tile--option .price {
+      padding-right: 0;
+      padding-bottom: 52px;
+      font-size: 0.8rem;
+    }
+
+    .tile--option strong {
+      font-size: 1.5rem;
+    }
+
+    .tile--option .arrow {
+      right: auto;
+      left: 16px;
+      bottom: 16px;
+    }
+
+    .bundle__plate {
+      padding: 16px 20px;
     }
   }
 </style>

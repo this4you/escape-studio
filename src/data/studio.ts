@@ -26,7 +26,7 @@ export const studio = {
     instagram: 'https://www.instagram.com/escape_studio__/',
     telegram: 'https://t.me/alexstudio2023',
   },
-  priceRange: '300–1999 грн',
+  priceRange: '400–1999 грн',
   seo: {
     title: 'ESCAPE — студія руху для дівчат у Пущі-Водиці | Йога, пілатес, High Heels',
     description:
