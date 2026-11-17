@@ -42,7 +42,7 @@ export const directions: Direction[] = [
   { name: 'Пілатес', photo: 'pilates', icon: 'mat', description: 'Сильний центр, рівна постава та контроль кожного руху.' },
   { name: 'Стретчинг', photo: 'stretching', icon: 'heart', description: 'Гнучкість, легкість і розслаблені мʼязи.' },
   { name: 'High Heels', photo: 'high-heels', icon: 'heel', description: 'Танець на підборах: пластика, впевненість, жіночність.' },
-  { name: 'Lady Dance', photo: 'step-aerobics', icon: 'star', description: 'Жіночна танцювальна пластика, грація та впевненість у собі.' },
+  { name: 'Lady Dance', photo: 'lady-dance', icon: 'star', description: 'Жіночна танцювальна пластика, грація та впевненість у собі.' },
   { name: 'Body Intensive', photo: 'body-intensive', icon: 'bolt', description: 'Функціональне тренування на все тіло та витривалість.' },
   { name: 'Relax Stretching', photo: 'relax-stretching', icon: 'sparkle', description: 'Повільна розтяжка для відновлення після дня.' },
   { name: 'Дитячі танці', photo: 'kids-dance', icon: 'people', description: 'Kids Dance: танці та розвиток для дітей 3–6 років.' },
