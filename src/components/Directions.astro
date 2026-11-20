@@ -23,8 +23,8 @@ const heading = `${count} ${forms[new Intl.PluralRules('uk').select(count) as ke
     </div>
     <ul class="grid">
       {
-        directions.map((d, i) => (
-          <li class:list={['card', 'reveal-item', { 'card--wide': i === 0 }]}>
+        directions.map((d) => (
+          <li class="card reveal-item">
             <Photo name={d.photo} alt={`${d.name} у студії руху ESCAPE`} class="card__photo" />
             <span class="card__icon">
               {(() => {
@@ -51,7 +51,8 @@ const heading = `${count} ${forms[new Intl.PluralRules('uk').select(count) as ke
   .grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-auto-rows: clamp(280px, 28vw, 360px);
+    /* Equal tiles: 4 per row on desktop. */
+    grid-auto-rows: clamp(300px, 26vw, 380px);
     gap: 16px;
     list-style: none;
     margin: 0;
@@ -66,16 +67,6 @@ const heading = `${count} ${forms[new Intl.PluralRules('uk').select(count) as ke
     border-radius: var(--radius);
     border: 1px solid var(--line);
     isolation: isolate;
-  }
-
-  .card--wide {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
-
-  /* With 8 directions: big first tile (4 cells) + 6 + a wide last tile (2) = full 4×3 grid, and 2-column rows on tablets. */
-  .card:last-child {
-    grid-column: span 2;
   }
 
   .card :global(.card__photo) {
@@ -130,10 +121,6 @@ const heading = `${count} ${forms[new Intl.PluralRules('uk').select(count) as ke
     letter-spacing: -0.01em;
   }
 
-  .card--wide h3 {
-    font-size: clamp(1.4rem, 2.6vw, 2rem);
-  }
-
   p {
     margin: 8px 0 0;
     font-size: 0.9rem;
@@ -146,13 +133,9 @@ const heading = `${count} ${forms[new Intl.PluralRules('uk').select(count) as ke
       grid-template-columns: repeat(2, 1fr);
       grid-auto-rows: 320px;
     }
-
-    .card--wide {
-      grid-row: span 1;
-    }
   }
 
-  /* Phones: horizontal swipe carousel instead of nine stacked tiles. */
+  /* Phones: horizontal swipe carousel instead of eight stacked tiles. */
   @media (max-width: 600px) {
     .grid {
       grid-template-columns: none;
@@ -173,15 +156,6 @@ const heading = `${count} ${forms[new Intl.PluralRules('uk').select(count) as ke
 
     .card {
       scroll-snap-align: start;
-    }
-
-    .card--wide,
-    .card:last-child {
-      grid-column: auto;
-    }
-
-    .card--wide h3 {
-      font-size: 1.15rem;
     }
   }
 </style>
