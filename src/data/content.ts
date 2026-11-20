@@ -76,7 +76,7 @@ export const adultSchedule: ScheduleGroup[] = [
     rows: [
       { time: '18:00', title: 'Йога з елементами терапії', note: 'тільки Вт та Чт', trainer: 'Валерія' },
       { time: '19:00', title: 'Pilates', trainer: 'Ірина' },
-      { time: '20:00', title: 'Body Intensive Stretching', trainer: 'Ірина' },
+      { time: '20:00', title: 'Body Intensive', trainer: 'Ірина' },
     ],
   },
 ];
