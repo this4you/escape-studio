@@ -14,7 +14,7 @@ import { adultSchedule, kidsSchedule } from '../data/content';
       <ScheduleTable title="Для дорослих" id="schedule-adults" groups={adultSchedule} />
       <div class="side">
         <ScheduleTable title="Для дітей" id="schedule-kids" groups={kidsSchedule} />
-        <Photo name="schedule" alt="Тренування з гантелями у студії ESCAPE" class="hall"><span aria-hidden="true">Escape</span></Photo>
+        <Photo name="schedule" alt="Учасниці студії ESCAPE у брендованій формі" class="hall"><span aria-hidden="true">Escape</span></Photo>
       </div>
     </div>
   </div>
@@ -47,14 +47,15 @@ import { adultSchedule, kidsSchedule } from '../data/content';
     display: none;
   }
 
+  /* Portrait shot: on the wide desktop frame keep the band with heads and the ESCAPE prints on the tops. */
   .columns :global(.hall .photo__img) {
-    object-position: 50% 20%;
+    object-position: 50% 40%;
   }
 
   @media (max-width: 860px) {
     .columns :global(.hall) {
       flex: none;
-      aspect-ratio: 3 / 2;
+      aspect-ratio: 4 / 5;
       min-height: 0;
     }
   }
