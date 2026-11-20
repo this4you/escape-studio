@@ -6,6 +6,8 @@ export interface Direction {
   photo: string;
   icon: IconName;
   description: string;
+  // Optional CSS object-position for the card photo when the subject sits low (text overlays the bottom).
+  focus?: string;
 }
 
 export interface ScheduleRow {
@@ -54,7 +56,7 @@ export const directions: Direction[] = [
   { name: 'High Heels', photo: 'high-heels', icon: 'heel', description: 'Танець на підборах: пластика, впевненість, жіночність.' },
   { name: 'Lady Dance', photo: 'lady-dance', icon: 'star', description: 'Жіночна танцювальна пластика, грація та впевненість у собі.' },
   { name: 'Body Intensive', photo: 'body-intensive', icon: 'bolt', description: 'Функціональне тренування на все тіло та витривалість.' },
-  { name: 'Relax Stretching', photo: 'relax-stretching', icon: 'sparkle', description: 'Повільна розтяжка для відновлення після дня.' },
+  { name: 'Relax Stretching', photo: 'relax-stretching', icon: 'sparkle', description: 'Повільна розтяжка для відновлення після дня.', focus: '25% 100%' },
   { name: 'Дитячі танці', photo: 'kids-dance', icon: 'people', description: 'Kids Dance: танці та розвиток для дітей 3–6 років.' },
   { name: 'Сучасні танці', photo: 'teen-dance', icon: 'music', description: 'Modern Dance для дітей і підлітків від 7 років.' },
 ];

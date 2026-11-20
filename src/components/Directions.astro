@@ -24,7 +24,7 @@ const heading = `${count} ${forms[new Intl.PluralRules('uk').select(count) as ke
     <ul class="grid">
       {
         directions.map((d) => (
-          <li class="card reveal-item">
+          <li class="card reveal-item" style={d.focus && `--focus: ${d.focus}`}>
             <Photo name={d.photo} alt={`${d.name} у студії руху ESCAPE`} class="card__photo" />
             <span class="card__icon">
               {(() => {
@@ -76,6 +76,7 @@ const heading = `${count} ${forms[new Intl.PluralRules('uk').select(count) as ke
   }
 
   .card :global(.photo__img) {
+    object-position: var(--focus, 50% 50%);
     transition: transform 0.8s var(--ease);
   }
 
