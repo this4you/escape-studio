@@ -222,13 +222,15 @@ img {
   background: currentColor;
 }
 
+/* Ring color as plain RGB channels (--pulse-rgb, gold by default): Safari doesn't animate
+   color-mix()/currentColor inside keyframes. */
 @keyframes pulse {
   from {
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--pulse-color, currentColor) 60%, transparent);
+    box-shadow: 0 0 0 0 rgb(var(--pulse-rgb, 234 219 138) / 0.6);
   }
   70%,
   to {
-    box-shadow: 0 0 0 10px color-mix(in srgb, var(--pulse-color, currentColor) 0%, transparent);
+    box-shadow: 0 0 0 10px rgb(var(--pulse-rgb, 234 219 138) / 0);
   }
 }
 
