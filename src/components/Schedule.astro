@@ -61,8 +61,8 @@ import { adultSchedule, kidsSchedule } from '../data/content';
   }
 
   /* The photo already shows the sign. */
-  :global(:root[data-theme='neon'] .hall:has(> .photo__img--neon) > span),
-  :global(:root:not([data-theme='neon']) .hall:has(> .photo__img--graphite) > span) {
+  :global(:root[data-theme='neon'] .hall:has(.photo__img--neon) > span),
+  :global(:root:not([data-theme='neon']) .hall:has(.photo__img--graphite) > span) {
     display: none;
   }
 

@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import { findPhoto, themes } from '../data/photos';
 
 // Photo slot that shows the current theme's image (CSS picks it, see .photo__img in global.css)
@@ -10,27 +10,41 @@ interface Props {
   class?: string;
   // Above-the-fold image (hero): load eagerly with high priority.
   priority?: boolean;
+  // Optional phone variant: slot name of a separate image used up to `mobileBreakpoint` px (art direction via <picture>).
+  mobile?: string;
 }
 
-const { name, alt, class: className, priority = false } = Astro.props;
+const { name, alt, class: className, priority = false, mobile } = Astro.props;
+const mobileBreakpoint = 800;
+
+const loading = priority ? 'eager' : 'lazy';
+const fetchpriority = priority ? 'high' : 'auto';
+
+const variants = await Promise.all(
+  themes.map(async (theme) => {
+    const src = findPhoto(theme, name);
+    const mobileSrc = mobile ? findPhoto(theme, mobile) : undefined;
+    return {
+      theme,
+      src,
+      mobileImg: mobileSrc ? await getImage({ src: mobileSrc, format: 'webp', width: Math.min(mobileSrc.width, 1000) }) : undefined,
+    };
+  })
+);
 ---
 
 <div class:list={['photo', className]}>
   {
-    themes.map((theme) => {
-      const src = findPhoto(theme, name);
-      return (
-        src && (
-          <Image
-            src={src}
-            alt={alt}
-            class={`photo__img photo__img--${theme}`}
-            loading={priority ? 'eager' : 'lazy'}
-            fetchpriority={priority ? 'high' : 'auto'}
-          />
-        )
-      );
-    })
+    variants.map(({ theme, src, mobileImg }) =>
+      src && mobileImg ? (
+        <picture>
+          <source media={`(max-width: ${mobileBreakpoint}px)`} srcset={mobileImg.src} type="image/webp" />
+          <Image src={src} alt={alt} class={`photo__img photo__img--${theme}`} {loading} {fetchpriority} />
+        </picture>
+      ) : (
+        src && <Image src={src} alt={alt} class={`photo__img photo__img--${theme}`} {loading} {fetchpriority} />
+      )
+    )
   }
   <slot />
 </div>

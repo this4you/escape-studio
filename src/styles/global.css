@@ -427,7 +427,7 @@ img {
   display: block;
 }
 
-:root[data-theme='neon'] .photo:has(> .photo__img--neon)::after,
-:root:not([data-theme='neon']) .photo:has(> .photo__img--graphite)::after {
+:root[data-theme='neon'] .photo:has(.photo__img--neon)::after,
+:root:not([data-theme='neon']) .photo:has(.photo__img--graphite)::after {
   display: none;
 }

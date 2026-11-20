@@ -12,7 +12,7 @@ const facts = [
 ---
 
 <section class="hero" id="top" aria-labelledby="hero-title">
-  <Photo name="hero" alt="Тренування з йоги у студії ESCAPE" class="hero__visual" priority />
+  <Photo name="hero" mobile="hero-mobile" alt="Учасниці студії ESCAPE на тлі вивіски ESCAPE" class="hero__visual" priority />
   <div class="container hero__inner">
     <div class="hero__content">
       <p class="badge"><span class="pulse-dot" aria-hidden="true"></span> Перше заняття — безкоштовно</p>
@@ -194,29 +194,29 @@ const facts = [
     color: var(--pink);
   }
 
-  /* Phones: the banner's four faces sit at 60–95% of its width, so instead of a full-height background
-     the photo becomes a 5:4 block on top showing the right ~60% of the 2:1 banner (faces end at ~50% of its height).
-     Its lower part fades out (mask, so no seam against the page glow) and the badge + heading sit over that fade. */
+  /* Phones: separate 4:5 banner (hero-mobile, served via <picture>) shown whole as a block on top.
+     Its bottom already fades to black; a mask finishes the fade into the page and the badge + heading
+     sit on that dark lower part, below the faces. */
   @media (max-width: 800px) {
     .hero {
       display: block;
       min-height: 0;
-      padding-top: 52vw;
+      padding-top: 84vw;
       padding-bottom: 48px;
     }
 
     .hero :global(.hero__visual) {
       inset: 0 0 auto;
-      aspect-ratio: 5 / 4;
-      mask-image: linear-gradient(180deg, #000 62%, transparent 100%);
+      aspect-ratio: 4 / 5;
+      mask-image: linear-gradient(180deg, #000 78%, transparent 100%);
     }
 
     .hero :global(.photo__img) {
-      object-position: 100% 50%;
+      object-position: 50% 0;
     }
 
     .hero :global(.hero__visual)::before {
-      background: linear-gradient(0deg, rgb(12 10 12 / 0.75) 0%, transparent 50%);
+      background: linear-gradient(0deg, rgb(12 10 12 / 0.6) 0%, transparent 40%);
     }
 
     .facts {
