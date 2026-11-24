@@ -74,7 +74,7 @@ const facts = [
      fade hides the gap below. Narrower, the faces would slide under the heading text, so they stay put. */
   @media (min-width: 1400px) {
     .hero :global(.hero__visual) {
-      inset: -15% 0 15%;
+      inset: -10% -48px 10% 0; /* also nudged right to clear the buttons */
     }
   }
 
@@ -139,7 +139,7 @@ const facts = [
   }
 
   .hero__quote {
-    max-width: 44ch;
+    max-width: 35ch; /* narrow enough to stay clear of the faces in the banner */
     margin: 28px 0 36px;
     font-size: clamp(1rem, 1.6vw, 1.15rem);
     color: rgb(246 240 243 / 0.78);
