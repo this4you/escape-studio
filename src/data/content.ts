@@ -115,31 +115,31 @@ export const prices: PriceCard[] = [
   {
     title: 'Разове заняття',
     featured: true,
-    options: [{ tag: 'Без абонемента', amount: 400, unit: 'грн' }],
+    options: [{ tag: 'Без абонемента', amount: 450, unit: 'грн' }],
   },
   {
     title: 'Пілатес, Body Intensive, Relax Stretching',
     subtitle: combinable,
     options: [
-      { tag: 'Абонемент на 8 занять', amount: 1750, unit: 'грн/міс', note: twice },
-      { tag: 'Абонемент на 12 занять', amount: 1999, unit: 'грн/міс', note: '3 рази на тиждень' },
+      { tag: 'Абонемент на 8 занять', amount: 1950, unit: 'грн/міс', note: twice },
+      { tag: 'Абонемент на 12 занять', amount: 2300, unit: 'грн/міс', note: '3 рази на тиждень' },
     ],
   },
   {
     title: 'Йога-терапія',
-    options: [{ tag: 'Йога-терапія 8 занять', amount: 1950, unit: 'грн/міс', note: twice }],
+    options: [{ tag: 'Йога-терапія 8 занять', amount: 2200, unit: 'грн/міс', note: twice }],
   },
   {
     title: 'Lady Dance, High Heels',
     subtitle: combinable,
-    options: [{ tag: 'Танцювальний абонемент 8 занять', amount: 1950, unit: 'грн/міс', note: twice }],
+    options: [{ tag: 'Танцювальний абонемент 8 занять', amount: 2200, unit: 'грн/міс', note: twice }],
   },
   {
     title: 'Дитяча група 3–6 р.',
-    options: [{ tag: 'Дитячий абонемент 8 занять', amount: 1450, unit: 'грн/міс', note: twice }],
+    options: [{ tag: 'Дитячий абонемент 8 занять', amount: 1650, unit: 'грн/міс', note: twice }],
   },
   {
     title: 'Modern Dance 7+ р.',
-    options: [{ tag: 'Підлітковий абонемент 8 занять', amount: 1750, unit: 'грн/міс', note: twice }],
+    options: [{ tag: 'Підлітковий абонемент 8 занять', amount: 1950, unit: 'грн/міс', note: twice }],
   },
 ];
