@@ -19,6 +19,8 @@ const mobileBreakpoint = 800;
 
 const loading = priority ? 'eager' : 'lazy';
 const fetchpriority = priority ? 'high' : 'auto';
+// Client photos arrive already compressed; Astro's default (~80) re-encode visibly softens them.
+const quality = 90;
 
 const variants = await Promise.all(
   themes.map(async (theme) => {
@@ -27,7 +29,7 @@ const variants = await Promise.all(
     return {
       theme,
       src,
-      mobileImg: mobileSrc ? await getImage({ src: mobileSrc, format: 'webp', width: Math.min(mobileSrc.width, 1000) }) : undefined,
+      mobileImg: mobileSrc ? await getImage({ src: mobileSrc, format: 'webp', quality }) : undefined,
     };
   })
 );
@@ -39,10 +41,10 @@ const variants = await Promise.all(
       src && mobileImg ? (
         <picture>
           <source media={`(max-width: ${mobileBreakpoint}px)`} srcset={mobileImg.src} type="image/webp" />
-          <Image src={src} alt={alt} class={`photo__img photo__img--${theme}`} {loading} {fetchpriority} />
+          <Image src={src} alt={alt} class={`photo__img photo__img--${theme}`} {loading} {fetchpriority} {quality} />
         </picture>
       ) : (
-        src && <Image src={src} alt={alt} class={`photo__img photo__img--${theme}`} {loading} {fetchpriority} />
+        src && <Image src={src} alt={alt} class={`photo__img photo__img--${theme}`} {loading} {fetchpriority} {quality} />
       )
     )
   }
