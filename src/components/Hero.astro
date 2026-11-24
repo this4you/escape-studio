@@ -91,9 +91,8 @@ const facts = [
     position: absolute;
     inset: 0;
     z-index: 1;
-    background:
-      linear-gradient(90deg, rgb(12 10 12 / 0.92) 10%, rgb(12 10 12 / 0.35) 55%, transparent 80%),
-      linear-gradient(0deg, var(--bg) 0%, transparent 35%);
+    /* The banner has its own plain grey left panel for the text, so only fade the bottom into the page. */
+    background: linear-gradient(0deg, var(--bg) 0%, transparent 35%);
   }
 
   .hero__content {
