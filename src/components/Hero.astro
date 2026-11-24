@@ -70,6 +70,14 @@ const facts = [
     z-index: -1;
   }
 
+  /* Wide screens: shift the banner up so the faces (lower half of it) sit beside the heading; the bottom
+     fade hides the gap below. Narrower, the faces would slide under the heading text, so they stay put. */
+  @media (min-width: 1400px) {
+    .hero :global(.hero__visual) {
+      inset: -15% 0 15%;
+    }
+  }
+
   .hero :global(.photo__img) {
     object-position: 100% 20%;
   }
